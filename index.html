@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0, minimum-scale=0.25">
+    <title>SQUAD SQUISH! | ULTIMATE CHAOS EDITION</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            cursor: url('https://cur.cursors-4u.net/nature/nat-10/nat983.cur'), auto;
+        }
+        h1, h2, h3, h4, .cartoon-font {
+            font-family: 'Fredoka One', cursive;
+        }
+        /* KEYFRAMES FOR MAXIMUM JUICE */
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-25px) rotate(3deg); }
+        }
+        @keyframes bounce-high {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-50px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { filter: drop-shadow(0 0 5px #f1c40f); }
+            50% { filter: drop-shadow(0 0 20px #f1c40f); }
+        }
+        /* CHARACTER ANIMATIONS */
+        @keyframes boing-bounce {
+            0%, 100% { transform: translateY(0) scaleY(1) scaleX(1); }
+            30% { transform: translateY(-40px) scaleY(1.2) scaleX(0.85); }
+            60% { transform: translateY(-20px) scaleY(0.9) scaleX(1.05); }
+            80% { transform: translateY(-35px) scaleY(1.1) scaleX(0.9); }
+        }
+        @keyframes munch-chomp {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            20% { transform: scale(1.15) rotate(-5deg); }
+            40% { transform: scale(0.95) rotate(5deg); }
+            60% { transform: scale(1.1) rotate(-3deg); }
+            80% { transform: scale(1) rotate(2deg); }
+        }
+        @keyframes zippy-spin {
+            0% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(20px) rotate(15deg); }
+            50% { transform: translateX(0px) rotate(0deg) scaleX(-1); }
+            75% { transform: translateX(-20px) rotate(-15deg) scaleX(-1); }
+            100% { transform: translateX(0) rotate(0deg); }
+        }
+        @keyframes goofy-wobble {
+            0%, 100% { transform: rotate(-8deg) scale(1); }
+            25% { transform: rotate(8deg) scale(1.1) translateY(-10px); }
+            50% { transform: rotate(-5deg) scale(0.95) translateY(5px); }
+            75% { transform: rotate(6deg) scale(1.05) translateY(-5px); }
+        }
+        @keyframes bloop-pulse {
+            0%, 100% { transform: scale(1); filter: hue-rotate(0deg); }
+            25% { transform: scale(1.1) translateY(-8px); filter: hue-rotate(30deg); }
+            50% { transform: scale(0.95); filter: hue-rotate(0deg); }
+            75% { transform: scale(1.05) translateY(-4px); filter: hue-rotate(-20deg); }
+        }
+        @keyframes character-idle-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+        @keyframes star-spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.3); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px) rotate(-2deg); }
+            20%, 40%, 60%, 80% { transform: translateX(8px) rotate(2deg); }
+        }
+        @keyframes download-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6), 8px 8px 0px #1e293b; }
+            50% { box-shadow: 0 0 0 15px rgba(34, 197, 94, 0), 8px 8px 0px #1e293b; }
+        }
+        @keyframes tv-blink {
+            0%, 90%, 100% { opacity: 1; }
+            95% { opacity: 0; }
+        }
+        @keyframes badge-pop {
+            0% { transform: scale(0) rotate(-10deg); }
+            70% { transform: scale(1.1) rotate(3deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        .animate-wiggle { animation: wiggle 0.3s ease-in-out infinite; }
+        .animate-float { animation: float 5s ease-in-out infinite; }
+        .animate-bounce-high { animation: bounce-high 2s ease-in-out infinite; }
+        .animate-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-idle { animation: character-idle-float 3s ease-in-out infinite; }
+        .char-boing:hover img { animation: boing-bounce 0.8s ease-in-out infinite; }
+        .char-munch:hover img { animation: munch-chomp 0.6s ease-in-out infinite; }
+        .char-zippy:hover img { animation: zippy-spin 0.7s linear infinite; }
+        .char-goofy:hover img { animation: goofy-wobble 0.5s ease-in-out infinite; }
+        .char-bloop:hover img { animation: bloop-pulse 1s ease-in-out infinite; }
+        .char-boing img, .char-munch img, .char-zippy img, .char-goofy img, .char-bloop img {
+            animation: character-idle-float 3s ease-in-out infinite;
+            transition: filter 0.3s;
+        }
+        .char-boing:hover img { filter: drop-shadow(0 0 20px #a855f7); }
+        .char-munch:hover img { filter: drop-shadow(0 0 20px #22c55e); }
+        .char-zippy:hover img { filter: drop-shadow(0 0 20px #eab308); }
+        .char-goofy:hover img { filter: drop-shadow(0 0 20px #ec4899); }
+        .char-bloop:hover img { filter: drop-shadow(0 0 20px #3b82f6); }
+        .comic-border { border: 4px solid #1e293b; }
+        @media (min-width: 768px) {
+            .comic-border { border-width: 6px; }
+        }
+        .comic-shadow { box-shadow: 8px 8px 0px #1e293b; }
+        @media (min-width: 768px) {
+            .comic-shadow { box-shadow: 12px 12px 0px #1e293b; }
+        }
+        .comic-shadow-hover:hover {
+            box-shadow: 12px 12px 0px #1e293b;
+            transform: translate(-2px, -2px);
+        }
+        @media (min-width: 768px) {
+            .comic-shadow-hover:hover {
+                box-shadow: 18px 18px 0px #1e293b;
+                transform: translate(-4px, -4px);
+            }
+        }
+        .download-btn { animation: download-pulse 2s ease-in-out infinite; }
+        .tv-live-badge { animation: tv-blink 3s ease-in-out infinite; }
+        .tv-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.05) 2px, rgba(0, 0, 0, 0.05) 4px);
+        }
+        .star-decoration { animation: star-spin 4s linear infinite; }
+        .shake-active { animation: shake 0.5s ease-in-out; }
+        ::-webkit-scrollbar { width: 10px; }
+        @media (min-width: 768px) {
+            ::-webkit-scrollbar { width: 15px; }
+        }
+        ::-webkit-scrollbar-track { background: #fef9c3; }
+        ::-webkit-scrollbar-thumb {
+            background: #db2777;
+            border: 2px solid #fef9c3;
+            border-radius: 10px;
+        }
+        .char-tooltip {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        @media (hover: hover) {
+            .char-card-link:hover .char-tooltip {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* FULLSCREEN LOADER STYLES */
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background-color: #7c3aed; /* purple-600 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.7s ease;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        #loader img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            object-fit: contain;
+        }
+        @media (min-width: 768px) {
+            #loader img {
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body id="main-body" class="bg-yellow-50 overflow-x-hidden transition-all duration-500">
+
+    <!-- 0. LOADING SCREEN (FULLSCREEN, ONCE PER VISIT) -->
+    <div id="loader">
+        <div class="animate-bounce-high flex justify-center w-full px-6">
+            <img src="/assets/logo.png" alt="Squad Squish Logo" onerror="this.src='https://placehold.co/300x300?text=SQUAD'">
+        </div>
+        <h2 class="cartoon-font text-white text-2xl md:text-4xl mt-10 animate-pulse px-6 text-center uppercase">SQUISHING THINGS READY...</h2>
+    </div>
+
+    <!-- 1. NAVIGATION -->
+    <div class="fixed top-0 left-0 w-full h-2 md:h-3 bg-slate-200 z-[110]">
+        <div id="scroll-progress" class="h-full bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 w-0 transition-all"></div>
+    </div>
+    <nav class="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-6xl bg-white/95 z-[100] rounded-2xl md:rounded-3xl p-3 md:p-4 border-2 md:border-4 border-slate-800 flex justify-between items-center comic-shadow">
+        <div class="flex items-center gap-2 md:gap-4">
+            <div class="w-8 md:w-12 hover:animate-wiggle cursor-pointer">
+                <img src="/assets/logo.png" alt="Logo" onerror="this.src='https://placehold.co/40x40?text=S'">
+            </div>
+            <div class="hidden lg:block cartoon-font text-purple-600">
+                SILLY METER: <span id="meter-percent">0%</span>
+            </div>
+        </div>
+        <div class="flex md:hidden gap-4 text-2xl">
+            <a href="#characters" title="Squad">👾</a>
+            <a href="#watch" title="TV">📺</a>
+            <a href="game.html" title="Game">🎮</a>
+        </div>
+        <div class="hidden md:flex gap-4 lg:gap-6 cartoon-font text-slate-700 text-base lg:text-lg uppercase">
+            <a href="#characters" class="hover:text-pink-500 hover:scale-110 transition-transform">Squad</a>
+            <a href="#quiz" class="hover:text-yellow-500 hover:scale-110 transition-transform">Quiz</a>
+            <a href="#generator" class="hover:text-blue-500 hover:scale-110 transition-transform">Plans</a>
+            <a href="#watch" class="hover:text-purple-500 hover:scale-110 transition-transform">TV</a>
+            <a href="game.html" class="hover:text-green-500 hover:scale-110 transition-transform">Game</a>
+        </div>
+        <button onclick="activateChaos()" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 md:px-8 py-2 rounded-xl md:rounded-2xl cartoon-font text-sm md:text-base comic-shadow active:translate-y-1 active:shadow-none transition-all">
+            CHAOS!
+        </button>
+    </nav>
+
+    <!-- 2. HERO SECTION -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden px-4">
+        <div class="absolute inset-0 z-0">
+            <img src="/assets/wallapaper.png" class="w-full h-full object-cover scale-110" alt="Sillyville Wallpaper" onerror="this.style.background='#facc15'">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-yellow-50"></div>
+        </div>
+        <div class="relative z-10 text-center w-full max-w-4xl">
+            <div class="flex flex-col items-center gap-6">
+                <h1 class="bg-white cartoon-font text-purple-600 text-2xl sm:text-3xl md:text-5xl lg:text-6xl p-6 md:p-8 rounded-[2rem] md:rounded-[3rem] comic-border comic-shadow inline-block -rotate-2 leading-tight">
+                    ZERO LOGIC.<br class="md:hidden"> MAXIMUM FUN!
+                </h1> 
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mt-4 w-full px-4">
+                    <a href="game.html" class="download-btn bg-green-500 text-white px-6 md:px-10 py-3 md:py-4 rounded-xl md:rounded-2xl cartoon-font text-xl md:text-2xl comic-border comic-shadow hover:translate-y-[-4px] transition-all inline-flex items-center justify-center gap-3">
+                        <span>🎮</span> PLAY GAME!
+                    </a>
+                    <a href="tv.html" class="tv-btn bg-pink-500 text-white px-6 md:px-10 py-3 md:py-4 rounded-xl md:rounded-2xl cartoon-font text-xl md:text-2xl comic-border comic-shadow hover:translate-y-[-4px] transition-all inline-flex items-center justify-center gap-3 relative">
+                        <span class="tv-live-badge">📺</span> WATCH TV!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. MEET THE SQUAD GRID -->
+    <section id="characters" class="py-16 md:py-32 px-4 md:px-6 bg-white relative">
+        <h2 class="text-5xl md:text-8xl lg:text-9xl text-center cartoon-font text-purple-600 mb-2 drop-shadow-xl">The Squad</h2>
+        <p class="text-center cartoon-font text-slate-400 text-lg md:text-2xl mb-12 md:mb-20">Click a character to learn more!</p>
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
+            <a href="/Squad/boing.html" class="char-card-link group char-boing bg-purple-100 p-6 md:p-8 rounded-[2.5rem] md:rounded-[4rem] comic-border comic-shadow-hover transition-all text-center relative">
+                <div class="char-tooltip absolute -top-10 left-1/2 -translate-x-1/2 bg-purple-600 text-white px-4 py-1 rounded-xl cartoon-font text-sm whitespace-nowrap hidden md:block">👆 Tap to meet Boing!</div>
+                <img src="/assets/boing-transparent.png" class="h-32 md:h-48 mx-auto object-contain" alt="Boing" onerror="this.src='https://placehold.co/150x150?text=BOING'">
+                <h3 class="text-2xl md:text-3xl cartoon-font text-purple-600 mt-4 uppercase">Boing</h3>
+                <p class="font-bold text-purple-400 text-xs md:text-sm">Leader / Bouncy</p>
+                <div class="mt-4 bg-purple-200 px-4 py-2 rounded-xl md:rounded-2xl cartoon-font text-purple-700 text-xs md:text-sm comic-border">Learn More →</div>
+            </a>
+            <a href="/Squad/munch.html" class="char-card-link group char-munch bg-green-100 p-6 md:p-8 rounded-[2.5rem] md:rounded-[4rem] comic-border comic-shadow-hover transition-all text-center relative">
+                <img src="/assets/munch-transparent.png" class="h-32 md:h-48 mx-auto object-contain" alt="Munch" onerror="this.src='https://placehold.co/150x150?text=MUNCH'">
+                <h3 class="text-2xl md:text-3xl cartoon-font text-green-600 mt-4 uppercase">Munch</h3>
+                <p class="font-bold text-green-400 text-xs md:text-sm">Muscle / Hungry</p>
+                <div class="mt-4 bg-green-200 px-4 py-2 rounded-xl md:rounded-2xl cartoon-font text-green-700 text-xs md:text-sm comic-border">Learn More →</div>
+            </a>
+            <a href="/Squad/zippy.html" class="char-card-link group char-zippy bg-yellow-100 p-6 md:p-8 rounded-[2.5rem] md:rounded-[4rem] comic-border comic-shadow-hover transition-all text-center relative">
+                <img src="/assets/zippy-transparent.png" class="h-32 md:h-48 mx-auto object-contain" alt="Zippy" onerror="this.src='https://placehold.co/150x150?text=ZIPPY'">
+                <h3 class="text-2xl md:text-3xl cartoon-font text-yellow-600 mt-4 uppercase">Zippy</h3>
+                <p class="font-bold text-yellow-500 text-xs md:text-sm">Speedster / Fast</p>
+                <div class="mt-4 bg-yellow-200 px-4 py-2 rounded-xl md:rounded-2xl cartoon-font text-yellow-700 text-xs md:text-sm comic-border">Learn More →</div>
+            </a>
+            <a href="/Squad/goofy.html" class="char-card-link group char-goofy bg-pink-100 p-6 md:p-8 rounded-[2.5rem] md:rounded-[4rem] comic-border comic-shadow-hover transition-all text-center relative">
+                <img src="/assets/goofy-transparent.png" class="h-32 md:h-48 mx-auto object-contain" alt="Goofy" onerror="this.src='https://placehold.co/150x150?text=GOOFY'">
+                <h3 class="text-2xl md:text-3xl cartoon-font text-pink-600 mt-4 uppercase">Goofy</h3>
+                <p class="font-bold text-pink-400 text-xs md:text-sm">Wildcard / Chaos</p>
+                <div class="mt-4 bg-pink-200 px-4 py-2 rounded-xl md:rounded-2xl cartoon-font text-pink-700 text-xs md:text-sm comic-border">Learn More →</div>
+            </a>
+            <a href="/Squad/bloop.html" class="char-card-link group char-bloop bg-blue-100 p-6 md:p-8 rounded-[2.5rem] md:rounded-[4rem] comic-border comic-shadow-hover transition-all text-center relative">
+                <img src="/assets/bloop-transparent.png" class="h-32 md:h-48 mx-auto object-contain" alt="Bloop" onerror="this.src='https://placehold.co/150x150?text=BLOOP'">
+                <h3 class="text-2xl md:text-3xl cartoon-font text-blue-600 mt-4 uppercase">Bloop</h3>
+                <p class="font-bold text-blue-400 text-xs md:text-sm">Brains / Calm</p>
+                <div class="mt-4 bg-blue-200 px-4 py-2 rounded-xl md:rounded-2xl cartoon-font text-blue-700 text-xs md:text-sm comic-border">Learn More →</div>
+            </a>
+        </div>
+        <div class="max-w-4xl mx-auto mt-16 md:mt-24 text-center px-4">
+            <a href="game.html" class="group inline-flex flex-col md:flex-row items-center gap-4 md:gap-8 bg-green-400 p-6 md:px-12 md:py-6 rounded-[2rem] md:rounded-[3rem] comic-border comic-shadow hover:translate-y-[-4px] transition-all w-full md:w-auto">
+                <span class="text-5xl md:text-6xl group-hover:animate-bounce inline-block">🎮</span>
+                <div class="text-center md:text-left">
+                    <p class="cartoon-font text-slate-800 text-2xl md:text-3xl">Play Squad Squish!</p>
+                    <p class="font-bold text-slate-700 text-xs md:text-sm">Download for FREE! (Kids Safe)</p>
+                </div>
+                <span class="bg-white px-6 py-2 rounded-xl md:rounded-2xl cartoon-font text-green-700 comic-border text-lg md:text-xl">GET IT!</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- 4. QUIZ SECTION -->
+    <section id="quiz" class="py-20 md:py-32 bg-pink-500 text-white overflow-hidden px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-6xl cartoon-font mb-8 md:mb-10">Which Squish Are You?</h2>
+            <div id="quiz-container" class="bg-white text-slate-800 p-6 md:p-12 rounded-[2.5rem] md:rounded-[4rem] comic-border comic-shadow relative">
+                <div id="question-box">
+                    <p class="text-xl md:text-3xl cartoon-font text-purple-600 mb-6 md:mb-8" id="quiz-question">You find a giant mountain of pancakes. What do you do?</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                        <button onclick="quizNext('munch')" class="p-4 md:p-6 bg-slate-100 rounded-2xl md:rounded-3xl cartoon-font hover:bg-green-400 transition-colors border-2 md:border-4 border-slate-800 text-sm md:text-base uppercase">EAT IT ALL!</button>
+                        <button onclick="quizNext('boing')" class="p-4 md:p-6 bg-slate-100 rounded-2xl md:rounded-3xl cartoon-font hover:bg-purple-400 transition-colors border-2 md:border-4 border-slate-800 text-sm md:text-base uppercase">BOUNCE ON IT!</button>
+                        <button onclick="quizNext('zippy')" class="p-4 md:p-6 bg-slate-100 rounded-2xl md:rounded-3xl cartoon-font hover:bg-yellow-400 transition-colors border-2 md:border-4 border-slate-800 text-sm md:text-base uppercase">RUN FAST!</button>
+                        <button onclick="quizNext('bloop')" class="p-4 md:p-6 bg-slate-100 rounded-2xl md:rounded-3xl cartoon-font hover:bg-blue-400 transition-colors border-2 md:border-4 border-slate-800 text-sm md:text-base uppercase">READ A BOOK.</button>
+                    </div>
+                </div>
+                <div id="result-box" class="hidden">
+                    <div id="result-char-img" class="h-32 md:h-40 flex items-center justify-center mb-4"></div>
+                    <h3 class="text-3xl md:text-5xl cartoon-font text-pink-500 mb-4">YOU ARE... <span id="result-name">MUNCH</span>!</h3>
+                    <p class="text-lg md:text-xl font-bold" id="result-desc">You love snacks and are always ready for lunch!</p>
+                    <div class="flex flex-col items-center gap-3 mt-6">
+                        <a id="result-link" href="/Squad/munch.html" class="bg-pink-500 text-white px-8 py-3 rounded-2xl cartoon-font comic-border hover:scale-105 transition-transform">Meet them! →</a>
+                        <button onclick="resetQuiz()" class="text-slate-500 font-bold underline">Try Again</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SOUNDBOARD -->
+    <section id="soundboard" class="py-20 md:py-24 bg-blue-400 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-4xl md:text-7xl cartoon-font text-white mb-10 md:mb-12">Action Soundboard!</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <button onclick="spawnVisual('BOINK!')" class="group bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl comic-border comic-shadow hover:bg-purple-500 transition-all">
+                    <span class="text-4xl md:text-6xl group-hover:scale-125 block transition-transform">🚀</span>
+                    <p class="cartoon-font mt-2 md:mt-4 text-sm md:text-base">BOUNCE</p>
+                </button>
+                <button onclick="spawnVisual('CHOMP!')" class="group bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl comic-border comic-shadow hover:bg-green-500 transition-all">
+                    <span class="text-4xl md:text-6xl group-hover:scale-125 block transition-transform">🍕</span>
+                    <p class="cartoon-font mt-2 md:mt-4 text-sm md:text-base">SNACK</p>
+                </button>
+                <button onclick="spawnVisual('ZOOOM!')" class="group bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl comic-border comic-shadow hover:bg-yellow-500 transition-all">
+                    <span class="text-4xl md:text-6xl group-hover:scale-125 block transition-transform">⚡</span>
+                    <p class="cartoon-font mt-2 md:mt-4 text-sm md:text-base">SPEED</p>
+                </button>
+                <button onclick="spawnVisual('HUH?!')" class="group bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl comic-border comic-shadow hover:bg-pink-500 transition-all">
+                    <span class="text-4xl md:text-6xl group-hover:scale-125 block transition-transform">🌀</span>
+                    <p class="cartoon-font mt-2 md:mt-4 text-sm md:text-base">CHAOS</p>
+                </button>
+            </div>
+            <div id="visual-sounds" class="h-10 mt-4 overflow-visible relative"></div>
+        </div>
+    </section>
+
+    <!-- 6. PLAN-O-MATIC -->
+    <section id="generator" class="py-20 md:py-32 bg-white px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="bg-yellow-400 p-6 md:p-12 rounded-[3rem] md:rounded-[5rem] comic-border comic-shadow relative">
+                <h2 class="text-3xl md:text-5xl cartoon-font text-slate-800 mb-6 md:mb-8">The Plan-O-Matic 🌀</h2>
+                <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl comic-border mb-8 md:mb-10 min-h-[150px] md:min-h-[200px] flex items-center justify-center">
+                    <p id="plan-output" class="text-xl md:text-4xl cartoon-font text-purple-600 leading-tight italic uppercase px-2">Tap below to generate chaos...</p>
+                </div>
+                <button onclick="mixPlan()" class="bg-purple-600 text-white px-8 md:px-12 py-4 md:py-6 rounded-full cartoon-font text-xl md:text-3xl hover:scale-110 active:scale-95 transition-all border-b-4 md:border-b-8 border-purple-900 shadow-xl">
+                    SQUISH IT UP!
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. WATCH SECTION -->
+    <section id="watch" class="py-20 md:py-32 bg-purple-700 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-4xl md:text-6xl cartoon-font text-yellow-400 mb-4 italic">Chaos TV LIVE!</h2>
+            <div class="mb-8 md:mb-10">
+                <span class="tv-live-badge inline-flex items-center gap-2 bg-red-500 text-white px-4 md:px-6 py-2 rounded-full cartoon-font text-sm md:text-xl comic-border">
+                    <span class="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full inline-block animate-pulse"></span> LIVE NOW
+                </span>
+            </div>
+            <a href="tv.html" class="block group relative comic-border comic-shadow rounded-[2rem] md:rounded-[4rem] overflow-hidden transition-all bg-black aspect-video">
+                <img src="/assets/sillyville.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[3s] opacity-70" alt="Sillyville TV" onerror="this.src='https://placehold.co/800x450?text=TV+SCREEN'">
+                <div class="absolute inset-0 bg-purple-900/40 flex flex-col items-center justify-center gap-4">
+                    <div class="w-20 h-20 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center text-pink-600 text-4xl md:text-6xl comic-border animate-float">▶</div>
+                    <div class="bg-white/90 px-6 py-3 rounded-xl md:rounded-2xl cartoon-font text-purple-700 text-lg md:text-2xl comic-border">Watch Full Cartoon →</div>
+                </div>
+            </a>
+            <div class="mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                <a href="tv.html" class="bg-purple-800/60 p-4 md:p-6 rounded-2xl md:rounded-3xl comic-border text-white text-left hover:bg-purple-600/80 transition-colors group">
+                    <h4 class="cartoon-font text-lg md:text-xl">EP 1: Munch Eats Everything</h4>
+                    <span class="mt-2 inline-block bg-yellow-400 text-slate-800 px-4 py-1 rounded-full cartoon-font text-xs md:text-sm comic-border">WATCH NOW →</span>
+                </a>
+                <a href="tv.html" class="bg-purple-800/60 p-4 md:p-6 rounded-2xl md:rounded-3xl comic-border text-white text-left hover:bg-purple-600/80 transition-colors group">
+                    <h4 class="cartoon-font text-lg md:text-xl">EP 2: Zippy vs. The Snail</h4>
+                    <span class="mt-2 inline-block bg-yellow-400 text-slate-800 px-4 py-1 rounded-full cartoon-font text-xs md:text-sm comic-border">WATCH NOW →</span>
+                </a>
+                <a href="tv.html" class="bg-purple-800/60 p-4 md:p-6 rounded-2xl md:rounded-3xl comic-border text-white text-left hover:bg-purple-600/80 transition-colors group">
+                    <h4 class="cartoon-font text-lg md:text-xl">EP 3: Boing Bounces High</h4>
+                    <span class="mt-2 inline-block bg-yellow-400 text-slate-800 px-4 py-1 rounded-full cartoon-font text-xs md:text-sm comic-border">WATCH NOW →</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. ABOUT SECTION -->
+    <section id="about" class="py-20 md:py-32 px-4 md:px-6 overflow-hidden">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
+            <div class="relative group">
+                <div class="bg-white p-3 md:p-4 rounded-[2rem] md:rounded-[4rem] comic-border comic-shadow rotate-2 group-hover:rotate-0 transition-transform">
+                    <img src="/assets/squad-squish!.png" class="w-full rounded-[1.5rem] md:rounded-[3.5rem]" alt="Squad Squish" onerror="this.src='https://placehold.co/600x400?text=THE+SQUAD'">
+                </div>
+            </div>
+            <div class="space-y-6 md:space-y-10">
+                <h2 class="text-4xl md:text-7xl cartoon-font text-pink-500 text-center md:text-left">Welcome to Sillyville!</h2>
+                <p class="text-xl md:text-3xl cartoon-font text-slate-600 leading-normal bg-white p-6 md:p-10 rounded-2xl md:rounded-[3rem] comic-border shadow-inner text-center md:text-left">
+                    A bright, weird place where <span class="text-blue-500">anything can happen!</span> They solve problems... or cause them.
+                </p>
+                <div class="flex gap-3 md:gap-6 flex-wrap justify-center md:justify-start">
+                    <div class="bg-yellow-400 p-4 rounded-xl md:rounded-2xl comic-border cartoon-font text-sm md:text-xl">NO LOGIC</div>
+                    <div class="bg-purple-400 p-4 rounded-xl md:rounded-2xl comic-border cartoon-font text-sm md:text-xl text-white">SQUISHY</div>
+                    <div class="bg-green-400 p-4 rounded-xl md:rounded-2xl comic-border cartoon-font text-sm md:text-xl">SNACKS</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="bg-slate-900 pt-16 pb-8 md:pt-24 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="animate-float mb-10">
+                <img src="/assets/logo.png" class="w-20 md:w-24 mx-auto grayscale hover:grayscale-0 transition-all" alt="Logo" onerror="this.src='https://placehold.co/80x80?text=SS'">
+            </div>
+            <div class="grid grid-cols-2 md:flex md:flex-wrap justify-center gap-6 md:gap-12 text-white cartoon-font text-lg md:text-2xl mb-12">
+                <a href="game.html" class="hover:text-yellow-400 transition-colors">🎮 GAMES</a>
+                <a href="#" class="hover:text-pink-400 transition-colors">🛍️ SHOP</a>
+                <a href="#about" class="hover:text-blue-400 transition-colors">📖 STORY</a>
+                <a href="tv.html" class="hover:text-purple-400 transition-colors">📺 TV</a>
+            </div>
+            <hr class="border-slate-800 mb-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors">FB</a>
+                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-pink-400 transition-colors">IG</a>
+                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">YT</a>
+                </div>
+                <div class="text-slate-500 font-bold text-sm">
+                    © 2024 SQUAD SQUISH MEDIA. NO LOGIC INTENDED.
+                </div>
+                <div class="flex gap-6 text-slate-400 text-xs uppercase font-bold tracking-widest">
+                    <a href="#" class="hover:text-white">Privacy</a>
+                    <a href="#" class="hover:text-white">Terms</a>
+                    <a href="#" class="hover:text-white">Parents</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            // FULLSCREEN LOADER – ONCE PER VISIT
+            const loader = document.getElementById('loader');
+            const LOADER_KEY = 'squadSquishLoaderShown';
+
+            function hideLoader() {
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        if (loader) loader.style.display = 'none';
+                    }, 700);
+                }
+            }
+
+            if (loader) {
+                // Check if loader was already shown in this session
+                if (sessionStorage.getItem(LOADER_KEY)) {
+                    // Already visited: hide loader immediately
+                    loader.style.display = 'none';
+                } else {
+                    // First visit: mark as shown and set timeout to hide
+                    sessionStorage.setItem(LOADER_KEY, 'true');
+                    window.addEventListener('load', function() {
+                        setTimeout(hideLoader, 1500);
+                    });
+                    // Fallback: if load event already fired (e.g., cached), still hide after 1.5s
+                    if (document.readyState === 'complete') {
+                        setTimeout(hideLoader, 1500);
+                    }
+                }
+            }
+
+            // Progress Bar
+            window.onscroll = function () {
+                let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                let scrolled = (winScroll / height) * 100;
+                document.getElementById("scroll-progress").style.width = scrolled + "%";
+                document.getElementById("meter-percent").innerText = Math.round(scrolled) + "%";
+            };
+
+            // Chaos Button
+            window.activateChaos = function() {
+                const body = document.getElementById('main-body');
+                body.classList.add('shake-active');
+                const colors = ['bg-yellow-100', 'bg-pink-100', 'bg-purple-100', 'bg-green-100', 'bg-blue-100'];
+                body.className = colors[Math.floor(Math.random() * colors.length)] + " overflow-x-hidden transition-all duration-500";
+                setTimeout(() => body.classList.remove('shake-active'), 500);
+                spawnVisual("CHAOS MODE!!");
+            };
+
+            // Quiz Logic
+            let quizAnswers = { munch: 0, boing: 0, zippy: 0, bloop: 0 };
+            window.quizNext = function(choice) {
+                quizAnswers[choice]++;
+                document.getElementById('question-box').classList.add('hidden');
+                document.getElementById('result-box').classList.remove('hidden');
+                const results = {
+                    munch: { name: "MUNCH", desc: "You are hungry for adventure (and snacks)!", color: "text-green-500" },
+                    boing: { name: "BOING", desc: "You are the leader of the bounce!", color: "text-purple-500" },
+                    zippy: { name: "ZIPPY", desc: "You're faster than a sneezing cloud!", color: "text-yellow-500" },
+                    bloop: { name: "BLOOP", desc: "You're the smartest squish in town!", color: "text-blue-500" }
+                };
+                const res = results[choice];
+                document.getElementById('result-name').innerText = res.name;
+                document.getElementById('result-name').className = res.color;
+                document.getElementById('result-desc').innerText = res.desc;
+            };
+
+            window.resetQuiz = function() {
+                document.getElementById('question-box').classList.remove('hidden');
+                document.getElementById('result-box').classList.add('hidden');
+            };
+
+            // Soundboard Visuals
+            window.spawnVisual = function(text) {
+                const container = document.getElementById('visual-sounds');
+                const el = document.createElement('div');
+                el.className = "absolute left-1/2 -translate-x-1/2 cartoon-font text-3xl md:text-5xl text-purple-600 animate-bounce-high";
+                el.style.color = `hsl(${Math.random() * 360}, 70%, 50%)`;
+                el.innerText = text;
+                container.appendChild(el);
+                setTimeout(() => el.remove(), 2000);
+            };
+
+            // Plan-O-Matic
+            window.mixPlan = function() {
+                const start = ["BOUNCE AROUND", "EAT A GIANT", "RACE A", "PAINT THE", "SING TO A"];
+                const mid = ["THE SILLY", "A SPARKLY", "THE FASTEST", "A SMELLY", "THE CLOUD"];
+                const end = ["PIZZA!", "SNAIL!", "MOUNTAIN!", "UNICORN!", "TOAST!"];
+                const plan = `${start[Math.floor(Math.random() * 5)]} ${mid[Math.floor(Math.random() * 5)]} ${end[Math.floor(Math.random() * 5)]}`;
+                document.getElementById('plan-output').innerText = plan;
+            };
+        })();
+    </script>
+</body>
+</html>

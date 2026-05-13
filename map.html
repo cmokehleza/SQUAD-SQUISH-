@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>🗺️ MAP OF SILLYVILLE | SQUAD SQUISH!</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    /* custom silly overrides */
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #fef9c3;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, .cartoon-font {
+      font-family: 'Fredoka One', cursive;
+      letter-spacing: 0.02em;
+    }
+    .comic-border {
+      border: 5px solid #1e293b;
+      box-shadow: 10px 10px 0 #1e293b;
+    }
+    @media (min-width: 768px) {
+      .comic-border {
+        border-width: 7px;
+        box-shadow: 14px 14px 0 #1e293b;
+      }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+    @keyframes pulse-soft {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+    @keyframes wiggle-marker {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(4deg); }
+      75% { transform: rotate(-4deg); }
+    }
+    .animate-float {
+      animation: float 4s infinite ease-in-out;
+    }
+    .map-wrapper {
+      background: #cffafe;
+      background-image: 
+        radial-gradient(circle at 15% 25%, #fbbf24 3px, transparent 3px),
+        radial-gradient(circle at 85% 70%, #ec4899 3px, transparent 3px),
+        radial-gradient(circle at 40% 80%, #a78bfa 2.5px, transparent 2.5px),
+        radial-gradient(circle at 70% 20%, #34d399 2.5px, transparent 2.5px),
+        linear-gradient(135deg, #e0f2fe 0%, #fce7f3 45%, #fef9c3 70%, #d9f99d 100%);
+      background-size: 100px 100px, 130px 130px, 90px 90px, 80px 80px, 100% 100%;
+      border-radius: 3rem;
+      position: relative;
+      overflow: hidden;
+      border: 8px solid #78350f;
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.1), 0 20px 35px rgba(0,0,0,0.4);
+    }
+    .map-image-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .map-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: crisp-edges;
+      background: transparent;
+      mix-blend-mode: multiply;
+      opacity: 0.92;
+    }
+    /* markers need to be above map image */
+    .map-wrapper > .absolute:not(.map-image-container) {
+      z-index: 20;
+    }
+    .location-marker {
+      transition: all 0.25s cubic-bezier(0.34, 1.2, 0.8, 1);
+      cursor: pointer;
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,0.4));
+      animation: float 4s infinite ease-in-out;
+      z-index: 25;
+      display: inline-block;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    }
+    .location-marker:hover {
+      transform: scale(1.35) translateY(-10px);
+      filter: drop-shadow(0 15px 15px rgba(0,0,0,0.5));
+      animation: wiggle-marker 0.3s ease-in-out, pulse-soft 0.5s infinite;
+    }
+    .popup-card {
+      background: #ffffffdd;
+      backdrop-filter: blur(12px);
+      border: 4px solid #1e293b;
+      border-radius: 1.8rem;
+      box-shadow: 8px 8px 0 #1e293b;
+      display: none;
+      position: absolute;
+      z-index: 60;
+      min-width: 170px;
+      max-width: 230px;
+      padding: 0.7rem 0.9rem;
+      text-align: center;
+      pointer-events: none;
+      font-weight: bold;
+      transition: all 0.1s ease;
+    }
+    /* hover & focus reveal */
+    .location-marker:focus + .popup-card,
+    .location-marker:active + .popup-card {
+      display: block;
+    }
+    @media (hover: hover) {
+      .location-marker:hover + .popup-card {
+        display: block;
+      }
+    }
+    .map-badge {
+      background: rgba(255,255,240,0.9);
+      border: 2px solid #1e293b;
+      border-radius: 2rem;
+      padding: 0.25rem 1rem;
+      font-weight: 800;
+      box-shadow: 3px 3px 0 #1e293b;
+      backdrop-filter: blur(4px);
+      font-size: 0.7rem;
+      white-space: nowrap;
+    }
+    @media (min-width: 640px) {
+      .map-badge {
+        font-size: 0.8rem;
+        padding: 0.3rem 1rem;
+      }
+    }
+    .compass {
+      background: #fff7e0;
+      border: 4px solid #1e293b;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 6px 6px 0 #1e293b;
+      z-index: 30;
+    }
+    .legend-item {
+      transition: all 0.2s ease;
+    }
+    .legend-item:hover {
+      transform: translateY(-6px);
+      box-shadow: 12px 12px 0 #1e293b;
+    }
+    code {
+      background: #fef08a;
+      padding: 0.2rem 0.5rem;
+      border-radius: 1rem;
+      font-family: monospace;
+      font-weight: bold;
+      border: 1px solid #854d0e;
+    }
+    /* extra silliness */
+    .bg-stripes {
+      background: repeating-linear-gradient(45deg, #ffd96622, #ffd96622 10px, #ffe4b522 10px, #ffe4b522 20px);
+    }
+  </style>
+</head>
+<body class="relative bg-gradient-to-b from-amber-50 to-yellow-100">
+
+  <!-- NAVIGATION with floating nav -->
+  <nav class="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 w-[94%] max-w-6xl bg-white/90 backdrop-blur-xl z-50 rounded-3xl p-3 md:p-4 border-4 border-slate-800 flex justify-between items-center comic-border shadow-lg">
+    <div class="flex items-center gap-2 md:gap-4">
+      <div class="w-10 h-10 md:w-12 md:h-12 bg-purple-500 rounded-full flex items-center justify-center text-white text-2xl shadow-inner border-2 border-white cartoon-font">🎭</div>
+      <span class="hidden md:block cartoon-font text-purple-700 text-xl tracking-wide">🗺️ SILLYVILLE GAZETTEER</span>
+    </div>
+    <div class="flex gap-3 md:gap-6 cartoon-font text-slate-700 text-sm md:text-lg uppercase font-bold">
+      <a href="#" class="hover:text-pink-500 transition">Home</a>
+      <a href="#" class="hover:text-blue-500 transition">Story</a>
+      <a href="#" class="hover:text-purple-500 transition">TV</a>
+      <a href="#" class="hover:text-green-500 transition">Game</a>
+    </div>
+  </nav>
+
+  <main class="pt-28 md:pt-36 pb-20 px-4 max-w-7xl mx-auto">
+    <!-- Silly Header with bouncing badge -->
+    <div class="text-center mb-10">
+      <span class="bg-gradient-to-r from-blue-400 to-pink-400 text-white px-7 py-2 rounded-full comic-border cartoon-font text-lg md:text-2xl inline-block mb-5 animate-float shadow-xl">🗺️✨ OFFICIAL MAP V.2.0 ✨🗺️</span>
+      <h1 class="text-5xl md:text-8xl cartoon-font text-purple-800 drop-shadow-2xl tracking-wider">EXPLORE SILLYVILLE</h1>
+      <p class="text-slate-700 cartoon-font text-lg md:text-2xl mt-3 max-w-2xl mx-auto">🎈 Hover or tap the wacky markers → secrets, snacks & silliness! 🎈</p>
+      <div class="mt-5 inline-flex items-center gap-3 bg-white px-6 py-2 rounded-full comic-border text-sm shadow-md">
+        <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+        <span class="cartoon-font text-slate-800 font-bold">✨ MAP FULLY LOADED · WIGGLE READY ✨</span>
+      </div>
+    </div>
+
+    <!-- THE MAGNIFICENT MAP -->
+    <div class="map-wrapper w-full aspect-[4/3] md:aspect-[16/9] max-w-6xl mx-auto relative shadow-2xl">
+      
+      <!-- MAP IMAGE BACKGROUND: we integrate the original sillyville graphical map from the description -->
+      <div class="map-image-container">
+        <!-- 
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          MAP IMAGE: using the original map.png as described in the prompt, 
+          but also we include a fallback background that replicates sillyville energy.
+          The user can replace the src with any high-res sillyville art.
+          Since the provided reference includes map legend "Boing Peak, Zippy Speedway,
+          Snacky Street, Wiggy Woods, etc" we align markers to approximate positions.
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        -->
+        <img 
+src="/assets/map.png"          alt="Sillyville Map - illustrated with iconic zones: Boing Peak, Zippy Speedway, Snacky Street, Silly Square, Wiggy Woods, Giggler Grove, Calm Cove, Team Zone, Friendly Fields, Wacky Woods" 
+          class="w-full h-full object-cover"
+        >
+      </div>
+
+      <!-- Floating clouds + silly atmosphere -->
+      <div class="absolute top-6 left-10 text-5xl md:text-7xl opacity-50 animate-float z-10 pointer-events-none">☁️✨</div>
+      <div class="absolute top-20 right-14 text-4xl md:text-6xl opacity-40 animate-float z-10 pointer-events-none" style="animation-delay: 0.8s;">☁️🌈</div>
+      <div class="absolute bottom-28 left-1/4 text-3xl md:text-5xl opacity-30 animate-float z-10 pointer-events-none" style="animation-delay: 1.5s;">☁️🎈</div>
+      <div class="absolute top-1/3 right-8 text-2xl z-10 pointer-events-none">🐦🎶</div>
+      <div class="absolute bottom-20 right-20 text-2xl z-10 pointer-events-none">🦋⭐</div>
+
+      <!-- LOCATION MARKERS: perfect fusion of original text map and silly characters -->
+      
+      <!-- 1️ BOING PEAK / Boing's Bouncy Castle -->
+      <div class="absolute top-[9%] left-[14%] md:left-[20%] flex flex-col items-center" style="animation-delay: 0s;">
+        <div class="location-marker text-5xl md:text-7xl" tabindex="0" role="button" aria-label="Boing Peak">🐰⚡</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-amber-100">
+          <p class="cartoon-font text-orange-700 text-base">🏔️ BOING PEAK</p>
+          <p class="text-xs font-bold">Bounciest mountain ever! Boing's trampoline throne.</p>
+          <span class="text-lg">🎯 +10 bounce power</span>
+        </div>
+        <span class="map-badge mt-1">🔊 Boing's Domain</span>
+      </div>
+
+      <!-- 2️ ZIPPY SPEEDWAY (Zippy's racetrack) -->
+      <div class="absolute top-[24%] right-[10%] md:right-[15%] flex flex-col items-center" style="animation-delay: 0.3s;">
+        <div class="location-marker text-5xl md:text-7xl" tabindex="0" role="button" aria-label="Zippy Speedway">🏎️💨</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-cyan-100">
+          <p class="cartoon-font text-cyan-800 text-base">ZIPPY SPEEDWAY</p>
+          <p class="text-xs">Zoom-zoom goo! Sonic loops & rainbow drift.</p>
+          <span class="text-lg">🏁 Vroom Vroom!</span>
+        </div>
+        <span class="map-badge">⚡ Zippy's asphalt</span>
+      </div>
+
+      <!-- 3️ SNACKY STREET: So Much Yum! -->
+      <div class="absolute bottom-[28%] left-[7%] md:left-[10%] flex flex-col items-center" style="animation-delay: 0.6s;">
+        <div class="location-marker text-5xl md:text-7xl" tabindex="0" role="button" aria-label="Snacky Street">🍕🍦</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-pink-100">
+          <p class="cartoon-font text-pink-700 text-base">SNACKY STREET</p>
+          <p class="text-xs">Endless food trucks & giggle pops! Munch's favorite.</p>
+          <span class="text-lg">🍩🌮 So much yum!</span>
+        </div>
+        <span class="map-badge">🍭 Munch's Treat Lane</span>
+      </div>
+
+      <!-- 4️⃣ SILLY SQUARE - Heart of Sillyville -->
+      <div class="absolute top-[44%] left-[44%] md:left-[48%] flex flex-col items-center z-20" style="animation-delay: 0.1s;">
+        <div class="location-marker text-6xl md:text-8xl" tabindex="0" role="button" aria-label="Silly Square" style="animation: pulse-soft 2.2s infinite;">🎠🎪</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-yellow-200 border-4 border-black">
+          <p class="cartoon-font text-slate-800 text-xl">✨ SILLY SQUARE ✨</p>
+          <p class="text-xs font-bold">The HEART of Sillyville: parades, confetti, nonstop fun!</p>
+          <span class="text-2xl">🤡🎉</span>
+        </div>
+        <span class="map-badge bg-yellow-300 font-black text-sm">⭐ MAIN PLAZA ⭐</span>
+      </div>
+
+      <!-- 5️⃣ WIGGY WOODS (Wacky Woods / Who Knows What's In Here?) -->
+      <div class="absolute bottom-[42%] right-[25%] md:right-[30%] flex flex-col items-center" style="animation-delay: 0.9s;">
+        <div class="location-marker text-5xl md:text-7xl" tabindex="0" role="button" aria-label="Wiggy Woods">🌳🌀</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-green-100">
+          <p class="cartoon-font text-green-700 text-base">WIGGY WOODS</p>
+          <p class="text-xs">Mysterious giggle trees & upside-down paths. Expect surprises!</p>
+          <span class="text-lg">🐿️✨ Who knows?!</span>
+        </div>
+        <span class="map-badge">🌲 Goofy's Hideout</span>
+      </div>
+
+      <!-- 6️⃣ GIGGLER GROVE - Laugh Out Loud! -->
+      <div class="absolute bottom-[18%] left-[20%] md:left-[24%] flex flex-col items-center" style="animation-delay: 1.1s;">
+        <div class="location-marker text-5xl md:text-7xl" tabindex="0" role="button" aria-label="Giggler Grove">😂🍃</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-lime-100">
+          <p class="cartoon-font text-lime-800 text-base">GIGGLER GROVE</p>
+          <p class="text-xs">Joke flowers & laughing waterfalls. Heal with humor!</p>
+          <span class="text-lg">🤣 Laugh Louder!</span>
+        </div>
+        <span class="map-badge">😜 Ha-Ha Healing</span>
+      </div>
+
+      <!-- 7️⃣ CALM COVE - Breathe. Relax. -->
+      <div class="absolute top-[68%] right-[12%] md:right-[14%] flex flex-col items-center" style="animation-delay: 1.3s;">
+        <div class="location-marker text-5xl md:text-7xl" tabindex="0" role="button" aria-label="Calm Cove">🧘🌀🌊</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-blue-50">
+          <p class="cartoon-font text-blue-700 text-base">CALM COVE</p>
+          <p class="text-xs">Whispering waves + glitter sand. Best nap spot ever.</p>
+          <span class="text-lg">🕊️ Chill Zone</span>
+        </div>
+        <span class="map-badge">🧸 Bloop's Meditation</span>
+      </div>
+
+      <!-- 8️⃣ TEAM ZONE - Play. Cheer. Repeat! -->
+      <div class="absolute bottom-[10%] left-[42%] md:left-[46%] flex flex-col items-center" style="animation-delay: 0.4s;">
+        <div class="location-marker text-5xl md:text-7xl" tabindex="0" role="button" aria-label="Team Zone">🏆🎽</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-red-100">
+          <p class="cartoon-font text-red-700 text-base">⚽ TEAM ZONE ⚾</p>
+          <p class="text-xs">Silly games, cheer squads, and confetti tournaments!</p>
+          <span class="text-lg">🎉 Go Team Go!</span>
+        </div>
+        <span class="map-badge">🤝 Friendly Fields nearby</span>
+      </div>
+
+      <!-- 9️⃣ FRIENDLY FIELDS - Where Friends Live! -->
+      <div class="absolute top-[78%] left-[60%] md:left-[64%] flex flex-col items-center" style="animation-delay: 1.6s;">
+        <div class="location-marker text-5xl md:text-6xl" tabindex="0" role="button" aria-label="Friendly Fields">🐻❤️</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-amber-50">
+          <p class="cartoon-font text-amber-700 text-base">FRIENDLY FIELDS</p>
+          <p class="text-xs">Meet characters, share snacks, make best friends forever!</p>
+          <span class="text-lg">👫 Squad Central</span>
+        </div>
+        <span class="map-badge">🏡 Co-op HQ</span>
+      </div>
+
+      <!-- 🔟 WACKY WOODS (extra wild) -->
+      <div class="absolute top-[52%] left-[7%] md:left-[8%] flex flex-col items-center" style="animation-delay: 1.8s;">
+        <div class="location-marker text-5xl md:text-6xl" tabindex="0" role="button" aria-label="Wacky Woods">🎭🌿</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-purple-50">
+          <p class="cartoon-font text-purple-700 text-base">WACKY WOODS</p>
+          <p class="text-xs">Inside-out trees, dancing mushrooms. Expect the UNEXPECTED!</p>
+          <span class="text-lg">🤪🌀 Glitchy fun</span>
+        </div>
+        <span class="map-badge">🌀 Goofy's Chaos Castle zone</span>
+      </div>
+
+      <!-- 1️⃣1️⃣ GOOFY'S CHAOS CASTLE (special spot) -->
+      <div class="absolute top-[33%] left-[36%] md:left-[40%] flex flex-col items-center" style="animation-delay: 0.5s;">
+        <div class="location-marker text-5xl md:text-7xl" tabindex="0" role="button" aria-label="Goofy's Chaos Castle">🏰🤪</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-orange-100">
+          <p class="cartoon-font text-orange-800 text-base">⚡ GOOFY'S CHAOS CASTLE ⚡</p>
+          <p class="text-xs">Gravity switches, tickle traps, and silly slides!!</p>
+          <span class="text-lg">🎢 Expect the Unexpected!</span>
+        </div>
+        <span class="map-badge">🏰 Ultimate Weirdness</span>
+      </div>
+
+      <!-- 1️⃣2️⃣ BOOP FALLS extra waterfun & giggle splash -->
+      <div class="absolute bottom-[55%] left-[28%] md:left-[32%] flex flex-col items-center" style="animation-delay: 0.7s;">
+        <div class="location-marker text-5xl md:text-6xl" tabindex="0" role="button" aria-label="Boop Falls">💦🐟</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-teal-50">
+          <p class="cartoon-font text-teal-700 text-base">BOOP FALLS</p>
+          <p class="text-xs">Singing waterfalls & bubble geysers. Refreshing + silly!</p>
+          <span class="text-lg">🎵 Bloop bloop splash</span>
+        </div>
+        <span class="map-badge">🌊 Boop's oasis</span>
+      </div>
+
+      <!-- SQUAD HQ center star: heart of everything -->
+      <div class="absolute top-[58%] left-[48%] md:left-[52%] flex flex-col items-center" style="animation-delay: 0s;">
+        <div class="location-marker text-6xl md:text-8xl" tabindex="0" role="button" aria-label="Squad HQ" style="animation: pulse-soft 1.5s infinite;">⭐🏠</div>
+        <div class="popup-card top-full mt-2 left-1/2 -translate-x-1/2 bg-white border-4 border-amber-500">
+          <p class="cartoon-font text-amber-700 text-xl">🏆 SQUAD HQ 🏆</p>
+          <p class="text-xs font-bold">Mission Control! Where all silly adventures begin. Meet the whole crew!!</p>
+          <span class="text-2xl">🎮🤝❤️</span>
+        </div>
+        <span class="map-badge bg-amber-200 text-sm border-2">👑 YOU ARE HERE 👑</span>
+      </div>
+
+      <!-- COMPASS + decorations -->
+      <div class="absolute bottom-5 left-5 md:bottom-8 md:left-8 compass z-20">
+        <span class="cartoon-font text-black text-xl font-black">🧭 N</span>
+      </div>
+      <div class="absolute bottom-6 right-6 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-2xl border-2 border-slate-800 shadow-md z-10 hidden md:block">
+        <p class="cartoon-font text-slate-800 text-sm">✨ SQUAD SQUISH · TAP ANY MARKER ✨</p>
+      </div>
+    </div>
+
+    <!-- EXTRA LEGEND (full of joy) -->
+    <div class="mt-14 max-w-5xl mx-auto">
+      <h2 class="text-3xl md:text-5xl cartoon-font text-center text-slate-800 mb-8 bg-white inline-block mx-auto px-8 py-2 rounded-full comic-border w-fit block">📍 SILLYVILLE LEGEND</h2>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-5">
+        <div class="legend-item bg-purple-100 p-4 rounded-3xl comic-border text-center"><span class="text-4xl">🐰⚡</span><h3 class="cartoon-font text-purple-700">Boing Peak</h3><p class="text-xs">Bounce central</p></div>
+        <div class="legend-item bg-cyan-100 p-4 rounded-3xl comic-border text-center"><span class="text-4xl">🏎️💨</span><h3 class="cartoon-font text-cyan-700">Zippy Speedway</h3><p class="text-xs">Vroom!</p></div>
+        <div class="legend-item bg-pink-100 p-4 rounded-3xl comic-border text-center"><span class="text-4xl">🍕🍦</span><h3 class="cartoon-font text-pink-700">Snacky Street</h3><p class="text-xs">So Much Yum!</p></div>
+        <div class="legend-item bg-yellow-100 p-4 rounded-3xl comic-border text-center"><span class="text-4xl">🎠🎪</span><h3 class="cartoon-font text-amber-700">Silly Square</h3><p class="text-xs">Heart of Town</p></div>
+        <div class="legend-item bg-green-100 p-4 rounded-3xl comic-border text-center"><span class="text-4xl">🌳🌀</span><h3 class="cartoon-font text-green-700">Wiggy Woods</h3><p class="text-xs">Mystery zone</p></div>
+        <div class="legend-item bg-lime-100 p-4 rounded-3xl comic-border text-center"><span class="text-4xl">😂🍃</span><h3 class="cartoon-font text-lime-700">Giggler Grove</h3><p class="text-xs">Laugh Out Loud!</p></div>
+        <div class="legend-item bg-blue-100 p-4 rounded-3xl comic-border text-center"><span class="text-4xl">🧘🌊</span><h3 class="cartoon-font text-blue-700">Calm Cove</h3><p class="text-xs">Relax Zone</p></div>
+        <div class="legend-item bg-red-100 p-4 rounded-3xl comic-border text-center"><span class="text-4xl">🏆🎽</span><h3 class="cartoon-font text-red-700">Team Zone</h3><p class="text-xs">Play. Cheer. Repeat!</p></div>
+        <div class="legend-item bg-amber-50 p-4 rounded-3xl comic-border text-center"><span class="text-4xl">🐻❤️</span><h3 class="cartoon-font text-amber-700">Friendly Fields</h3><p class="text-xs">Friends live here</p></div>
+        <div class="legend-item bg-orange-100 p-4 rounded-3xl comic-border text-center"><span class="text-4xl">🏰🤪</span><h3 class="cartoon-font text-orange-800">Chaos Castle</h3><p class="text-xs">Expect unexpected</p></div>
+      </div>
+    </div>
+
+    <!-- back to squad hq button -->
+    <div class="mt-12 text-center">
+      <a href="#" class="inline-flex items-center gap-3 bg-slate-800 text-white px-10 py-5 rounded-full cartoon-font text-xl md:text-2xl comic-border hover:bg-purple-700 transition-all hover:scale-105 shadow-xl">
+        ← BACK TO SQUAD HQ
+      </a>
+    </div>
+  </main>
+
+  <!-- footer with bouncy silliness -->
+  <footer class="bg-slate-900 text-white py-12 px-4 text-center mt-10 border-t-4 border-yellow-400">
+    <p class="cartoon-font text-2xl">🗺️ SQUAD SQUISH! · OFFICIAL MAP OF SILLYVILLE</p>
+    <p class="text-slate-300 text-sm mt-2">© 2025 Squad Squish Media · No GPS needed, just follow the giggles!</p>
+    <div class="flex justify-center gap-6 mt-5 text-sm font-bold">
+      <a href="#" class="hover:text-yellow-400 transition">Privacy</a>
+      <a href="#" class="hover:text-yellow-400 transition">Terms</a>
+      <a href="#" class="hover:text-yellow-400 transition">Parents</a>
+      <a href="#" class="hover:text-yellow-400 transition">Goo Team!</a>
+    </div>
+  </footer>
+
+</body>
+</html>

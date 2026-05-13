@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zippy | The Hyper One - Squad Squish!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Quicksand', sans-serif; background-color: #fefce8; overflow-x: hidden; }
+        h1, h2, h3, .cartoon-font { font-family: 'Fredoka One', cursive; }
+
+        /* Rapid vibration animation for a "hyper" feel */
+        @keyframes vibrate {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        .animate-hyper { animation: vibrate 0.1s linear infinite; }
+
+        /* Motion trail animation */
+        @keyframes zoom-blur {
+            0% { transform: translateX(-100px) skewX(-20deg); opacity: 0; filter: blur(10px); }
+            50% { transform: translateX(0) skewX(0); opacity: 1; filter: blur(0); }
+            100% { transform: translateX(100px) skewX(20deg); opacity: 0; filter: blur(10px); }
+        }
+        .trail { position: absolute; pointer-events: none; }
+
+        .blue-comic-shadow { box-shadow: 12px 12px 0px #1d4ed8; }
+        .blue-border { border: 6px solid #1d4ed8; }
+
+        /* Sonic Boom Effect */
+        .sonic-boom {
+            position: fixed;
+            border: 5px solid #3b82f6;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: boom 0.6s ease-out forwards;
+        }
+        @keyframes boom {
+            from { width: 0; height: 0; opacity: 1; border-width: 20px; }
+            to { width: 800px; height: 800px; opacity: 0; border-width: 1px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SPEED TRAILS DECORATION -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
+        <div class="absolute top-1/4 h-2 w-full bg-blue-400 blur-sm"></div>
+        <div class="absolute top-1/2 h-1 w-full bg-yellow-400 blur-sm"></div>
+        <div class="absolute top-3/4 h-3 w-full bg-blue-600 blur-sm"></div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-4 left-6 z-50">
+        <a href="/index.html" class="bg-white blue-border px-6 py-2 rounded-full cartoon-font text-blue-700 hover:bg-blue-600 hover:text-white transition-all flex items-center gap-2 shadow-lg">
+            ← BACK TO SILLYVILLE
+        </a>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen flex flex-col items-center justify-center pt-24 px-6 z-10">
+        <div class="max-w-5xl w-full grid md:grid-cols-2 gap-12 items-center">
+            
+            <!-- ZIPPY IMAGE -->
+            <div class="relative flex justify-center group">
+                <div class="absolute inset-0 bg-yellow-200 rounded-full blur-3xl opacity-50 group-hover:scale-150 transition-transform duration-300"></div>
+                <!-- [FROM IMAGE 11: Use the Main Running Zippy Image] -->
+                <img src="/assets/zippy-transparent.png" alt="Zippy" class="w-full max-w-sm animate-hyper drop-shadow-[0_20px_20px_rgba(29,78,216,0.4)]">
+                
+                <!-- Floating Lightning Bolts -->
+                <span class="absolute top-0 right-0 text-6xl animate-bounce">⚡</span>
+                <span class="absolute bottom-0 left-0 text-6xl animate-bounce" style="animation-delay: 0.5s;">⚡</span>
+            </div>
+
+            <!-- ZIPPY DETAILS -->
+            <div class="text-center md:text-left space-y-6">
+                <h1 class="text-8xl md:text-9xl text-blue-600 drop-shadow-lg leading-none uppercase italic">Zippy</h1>
+                <p class="bg-yellow-400 text-blue-900 cartoon-font text-2xl inline-block px-6 py-2 rounded-2xl rotate-[-3deg] border-4 border-blue-600 shadow-xl">THE HYPER ONE</p>
+                
+                <p class="text-2xl text-slate-600 font-medium leading-relaxed italic pt-4">
+                    "Life's too short to go slow! Let's make every second awesome!"
+                </p>
+
+                <!-- STATS CARDS -->
+                <div class="grid grid-cols-2 gap-4 pt-6">
+                    <div class="bg-white p-4 rounded-2xl blue-border shadow-md">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Power</p>
+                        <p class="cartoon-font text-blue-600 text-xl">SUPER SPEED</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl blue-border shadow-md">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Role</p>
+                        <p class="cartoon-font text-blue-600 text-xl">SPEEDSTER</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPRESSIONS GALLERY -->
+    <section class="py-24 bg-yellow-400 relative overflow-hidden border-y-8 border-blue-600">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="text-5xl md:text-7xl cartoon-font text-blue-700 mb-16 italic">High Speed Emotions!</h2>
+            
+            <!-- [FROM IMAGE 11: Use the 8 faces from "EXPRESSIONS!"] -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-[2rem] blue-border hover:scale-110 hover:-rotate-3 transition-all cursor-crosshair">
+                    <img src="/assets/zippy-happy.png" class="h-32 mx-auto">
+                    <p class="cartoon-font text-blue-600 mt-4">HAPPY</p>
+                </div>
+                <div class="bg-white p-6 rounded-[2rem] blue-border hover:scale-110 hover:rotate-3 transition-all cursor-crosshair">
+                    <img src="/assets/zippy-hyped.png" class="h-32 mx-auto">
+                    <p class="cartoon-font text-blue-600 mt-4">HYPED UP</p>
+                </div>
+                <div class="bg-white p-6 rounded-[2rem] blue-border hover:scale-110 hover:-rotate-3 transition-all cursor-crosshair">
+                    <img src="/assets/zippy-determined.png" class="h-32 mx-auto">
+                    <p class="cartoon-font text-blue-600 mt-4">DETERMINED</p>
+                </div>
+                <div class="bg-white p-6 rounded-[2rem] blue-border hover:scale-110 hover:rotate-3 transition-all cursor-crosshair">
+                    <img src="/assets/zippy-cool.png" class="h-32 mx-auto">
+                    <p class="cartoon-font text-blue-600 mt-4">TOO COOL</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IN ACTION SECTION -->
+    <section class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-20 items-center">
+            
+            <div class="space-y-8">
+                <h2 class="text-6xl cartoon-font text-blue-600">Catch Him If You Can!</h2>
+                <div class="bg-white p-10 rounded-[4rem] blue-border blue-comic-shadow">
+                    <p class="text-xl text-slate-700 font-bold mb-4">FUN FACT:</p>
+                    <p class="text-2xl text-slate-600 leading-relaxed mb-6">
+                        Zippy once ran so fast, <span class="text-blue-500 font-black italic">he actually lapped himself!</span>
+                    </p>
+                    <hr class="border-blue-100 mb-6">
+                    <p class="text-xl text-slate-700 font-bold mb-4">WEAKNESS:</p>
+                    <p class="text-xl text-slate-500 italic">Can't stop moving—even when he tries his hardest!</p>
+                </div>
+                
+                <!-- THE ZOOM BUTTON -->
+                <button onclick="triggerSonicBoom()" class="w-full bg-blue-600 hover:bg-blue-500 text-white cartoon-font text-3xl py-6 rounded-full border-b-8 border-blue-900 transition-all active:border-0 active:translate-y-2 shadow-2xl overflow-hidden relative">
+                    <span class="relative z-10">ACTIVATE ZOOM MODE! ⚡</span>
+                </button>
+            </div>
+
+            <!-- ACTION GRID -->
+            <!-- [FROM IMAGE 11: Use the 4 scenes from "IN ACTION!"] -->
+            <div class="grid grid-cols-1 gap-6">
+                <div class="bg-white p-6 rounded-[3rem] blue-border blue-comic-shadow flex items-center gap-6 group hover:bg-blue-50 transition-colors">
+                    <img src="/assets/zippy-whirlwind.png" class="w-32 group-hover:animate-spin">
+                    <p class="cartoon-font text-blue-700 text-xl">SQUISHY WHIRLWIND!</p>
+                </div>
+                <div class="bg-white p-6 rounded-[3rem] blue-border blue-comic-shadow flex items-center gap-6 group hover:bg-blue-50 transition-colors">
+                    <img src="/assets/zippy-skid.png" class="w-32 group-hover:translate-x-4 transition-transform">
+                    <p class="cartoon-font text-blue-700 text-xl">EMERGENCY BRAKES!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SQUAD NAVIGATION -->
+    <section class="py-20 bg-slate-50 text-center border-t-8 border-yellow-100">
+        <h3 class="cartoon-font text-3xl text-slate-400 mb-10 uppercase tracking-widest italic">Race To See Others</h3>
+        <div class="flex justify-center flex-wrap gap-6 px-6">
+            <a href="/Squad/boing.html" class="w-24 h-24 bg-purple-100 rounded-full flex items-center justify-center border-4 border-purple-300 hover:scale-110 transition-all shadow-lg grayscale hover:grayscale-0">
+                <img src="/assets/boing-transparent.png" class="w-16">
+            </a>
+            <a href="/Squad/munch.html" class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center border-4 border-green-300 hover:scale-110 transition-all shadow-lg grayscale hover:grayscale-0">
+                <img src="/assets/munch-transparent.png" class="w-16">
+            </a>
+            <a href="/Squad/goofy.html" class="w-24 h-24 bg-pink-100 rounded-full flex items-center justify-center border-4 border-pink-300 hover:scale-110 transition-all shadow-lg grayscale hover:grayscale-0">
+                <img src="/assets/goofy-transparent.png" class="w-16">
+            </a>
+            <a href="/Squad/bloop.html" class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center border-4 border-blue-300 hover:scale-110 transition-all shadow-lg grayscale hover:grayscale-0">
+                <img src="/assets/bloop-transparent.png" class="w-16">
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-blue-900 py-12 text-center text-white">
+        <p class="cartoon-font text-2xl tracking-widest italic">SQUAD SQUISH! ™</p>
+        <p class="text-blue-400 text-xs mt-2 uppercase">Blink and you'll miss the copyright notice.</p>
+    </footer>
+
+    <!-- INTERACTIVE ZOOM SCRIPT -->
+    <script>
+        function triggerSonicBoom() {
+            // Visual Effect
+            const boom = document.createElement('div');
+            boom.className = 'sonic-boom';
+            boom.style.left = '50%';
+            boom.style.top = '50%';
+            boom.style.transform = 'translate(-50%, -50%)';
+            document.body.appendChild(boom);
+
+            // "Zoom" the page elements
+            const everything = document.querySelectorAll('img, h1, h2, .bg-white');
+            everything.forEach(el => {
+                el.style.transition = '0.1s';
+                el.style.transform = 'skewX(-10deg) scale(1.02)';
+                setTimeout(() => {
+                    el.style.transform = 'skewX(0) scale(1)';
+                }, 200);
+            });
+
+            setTimeout(() => boom.remove(), 600);
+        }
+    </script>
+
+</body>
+</html>

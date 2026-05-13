@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloop | The Calm One - Squad Squish!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Quicksand', sans-serif; background-color: #f0f9ff; transition: all 1s ease; }
+        h1, h2, h3, .cartoon-font { font-family: 'Fredoka One', cursive; }
+
+        /* Gentle floating animation */
+        @keyframes zen-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .animate-zen { animation: zen-float 4s ease-in-out infinite; }
+
+        /* Sound wave pulse effect */
+        @keyframes sound-pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .sound-wave {
+            position: absolute;
+            border: 2px solid #0ea5e9;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sound-pulse 2s infinite;
+        }
+
+        .blue-comic-shadow { box-shadow: 12px 12px 0px #075985; }
+        .blue-border { border: 6px solid #075985; }
+
+        /* Grayscale mode for "Silence" */
+        .silence-mode { filter: grayscale(0.8) contrast(0.8); background-color: #f1f5f9 !important; }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- GENTLE BACKGROUND DECORATIONS -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="absolute top-20 left-10 text-6xl opacity-10">☁️</div>
+        <div class="absolute bottom-40 right-20 text-7xl opacity-10">📖</div>
+        <div class="absolute top-1/2 left-1/4 text-5xl opacity-10">...</div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-4 left-6 z-50">
+        <a href="/index.html" class="bg-white blue-border px-6 py-2 rounded-full cartoon-font text-blue-700 hover:bg-blue-600 hover:text-white transition-all flex items-center gap-2 shadow-lg">
+            ← BACK TO SILLYVILLE
+        </a>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen flex flex-col items-center justify-center pt-24 px-6 z-10">
+        <div class="max-w-5xl w-full grid md:grid-cols-2 gap-12 items-center">
+            
+            <!-- BLOOP IMAGE -->
+            <div class="relative flex justify-center">
+                <!-- Sound Wave Rings -->
+                <div class="sound-wave w-64 h-64"></div>
+                <div class="sound-wave w-64 h-64" style="animation-delay: 1s;"></div>
+                
+                <!-- [FROM IMAGE 9: Use the Main Bloop reading a book] -->
+                <img src="/assets/bloop-transparent.png" alt="Bloop" class="w-full max-w-sm animate-zen drop-shadow-[0_20px_20px_rgba(7,89,133,0.3)] z-10">
+            </div>
+
+            <!-- BLOOP DETAILS -->
+            <div class="text-center md:text-left space-y-6">
+                <h1 class="text-8xl md:text-9xl text-blue-800 drop-shadow-lg leading-none uppercase">Bloop</h1>
+                <p class="bg-blue-600 text-white cartoon-font text-2xl inline-block px-8 py-2 rounded-2xl border-4 border-blue-900 shadow-xl">THE CALM ONE</p>
+                
+                <p class="text-2xl text-slate-600 font-medium leading-relaxed italic pt-4">
+                    "Silence isn't empty... it's full of answers."
+                </p>
+
+                <!-- STATS CARDS -->
+                <div class="grid grid-cols-2 gap-4 pt-6">
+                    <div class="bg-white p-4 rounded-3xl blue-border shadow-md">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Power</p>
+                        <p class="cartoon-font text-blue-600 text-xl">SOUND WAVES</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-3xl blue-border shadow-md">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Role</p>
+                        <p class="cartoon-font text-blue-600 text-xl uppercase">The Brains</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPRESSIONS GALLERY -->
+    <section class="py-24 bg-blue-900 relative overflow-hidden border-y-8 border-blue-700">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="text-5xl md:text-7xl cartoon-font text-blue-200 mb-16">Deep Thoughts</h2>
+            
+            <!-- [FROM IMAGE 9: Use the 8 faces from "EXPRESSIONS!"] -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-white/10 p-6 rounded-[3rem] border-4 border-blue-400/30 hover:bg-white/20 transition-all cursor-help">
+                    <img src="/assets/bloop-calm.png" class="h-32 mx-auto">
+                    <p class="cartoon-font text-blue-100 mt-4">CALM</p>
+                </div>
+                <div class="bg-white/10 p-6 rounded-[3rem] border-4 border-blue-400/30 hover:bg-white/20 transition-all cursor-help">
+                    <img src="/assets/bloop-sleepy.png" class="h-32 mx-auto">
+                    <p class="cartoon-font text-blue-100 mt-4">SLEEPY</p>
+                </div>
+                <div class="bg-white/10 p-6 rounded-[3rem] border-4 border-blue-400/30 hover:bg-white/20 transition-all cursor-help">
+                    <img src="/assets/bloop-unimpressed.png" class="h-32 mx-auto">
+                    <p class="cartoon-font text-blue-100 mt-4">UNIMPRESSED</p>
+                </div>
+                <div class="bg-white/10 p-6 rounded-[3rem] border-4 border-blue-400/30 hover:bg-white/20 transition-all cursor-help">
+                    <img src="/assets/bloop-annoyed.png" class="h-32 mx-auto">
+                    <p class="cartoon-font text-blue-100 mt-4">ANNOYED</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IN ACTION SECTION -->
+    <section class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-20 items-center">
+            
+            <div class="space-y-8">
+                <h2 class="text-6xl cartoon-font text-blue-800">Zen Master</h2>
+                <div class="bg-white p-10 rounded-[4rem] blue-border blue-comic-shadow">
+                    <p class="text-xl text-slate-700 font-bold mb-4 italic">"Bloop once stayed so calm during a tornado, he used it as background white noise to nap!"</p>
+                    <hr class="border-blue-100 my-6">
+                    <p class="text-lg text-slate-500 font-medium">
+                        Bloop is the calm thinker of the squad. He stays cool in every situation and loves peace, quiet, and thinking things through.
+                    </p>
+                </div>
+                
+                <!-- THE SILENCE BUTTON -->
+                <button id="silence-btn" onclick="toggleSilence()" class="w-full bg-slate-800 hover:bg-slate-700 text-white cartoon-font text-3xl py-6 rounded-full border-b-8 border-black transition-all active:border-0 active:translate-y-2 shadow-2xl">
+                    ACTIVATE SILENCE MODE... 🤫
+                </button>
+            </div>
+
+            <!-- ACTION TILES -->
+            <!-- [FROM IMAGE 9: Use the scenes from "IN ACTION!"] -->
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-blue-100 p-4 rounded-[2rem] border-2 border-blue-200">
+                    <img src="/assets/bloop-meditating.png" class="w-full">
+                    <p class="cartoon-font text-blue-800 text-center mt-2 text-sm">FOCUS</p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded-[2rem] border-2 border-blue-200">
+                    <img src="/assets/bloop-headphones.png" class="w-full">
+                    <p class="cartoon-font text-blue-800 text-center mt-2 text-sm">NOISE CANCEL</p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded-[2rem] border-2 border-blue-200 col-span-2">
+                    <img src="/assets/bloop-beanbag.png" class="w-1/2 mx-auto">
+                    <p class="cartoon-font text-blue-800 text-center mt-2 text-sm">MAXIMUM CHILL</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SQUAD NAVIGATION -->
+    <section class="py-20 bg-white text-center border-t-8 border-blue-50">
+        <h3 class="cartoon-font text-3xl text-slate-300 mb-10 uppercase tracking-widest">Other Squish Friends</h3>
+        <div class="flex justify-center flex-wrap gap-6 px-6">
+            <a href="/Squad/boing.html" class="w-24 h-24 bg-purple-100 rounded-full flex items-center justify-center border-4 border-purple-300 hover:scale-110 transition-all shadow-lg grayscale hover:grayscale-0">
+                <img src="/assets/boing-transparent.png" class="w-16">
+            </a>
+            <a href="/Squad/munch.html" class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center border-4 border-green-300 hover:scale-110 transition-all shadow-lg grayscale hover:grayscale-0">
+                <img src="/assets/munch-transparent.png" class="w-16">
+            </a>
+            <a href="/Squad/zippy.html" class="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center border-4 border-yellow-300 hover:scale-110 transition-all shadow-lg grayscale hover:grayscale-0">
+                <img src="/assets/zippy-transparent.png" class="w-16">
+            </a>
+            <a href="/Squad/goofy.html" class="w-24 h-24 bg-pink-100 rounded-full flex items-center justify-center border-4 border-pink-300 hover:scale-110 transition-all shadow-lg grayscale hover:grayscale-0">
+                <img src="/assets/goofy-transparent.png" class="w-16">
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 py-12 text-center text-slate-500">
+        <p class="cartoon-font text-xl">SQUAD SQUISH! ™</p>
+        <p class="text-xs mt-2 uppercase">Please browse quietly. Bloop is reading.</p>
+    </footer>
+
+    <script>
+        function toggleSilence() {
+            const body = document.body;
+            const btn = document.getElementById('silence-btn');
+            
+            body.classList.toggle('silence-mode');
+            
+            if (body.classList.contains('silence-mode')) {
+                btn.innerText = "RESTORE LOUDNESS!";
+            } else {
+                btn.innerText = "ACTIVATE SILENCE MODE... 🤫";
+            }
+        }
+    </script>
+
+</body>
+</html>

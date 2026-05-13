@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>STORY | SQUAD SQUISH! · Sillyville Tales</title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #fef9c3;
+      margin: 0;
+      cursor: url('https://cur.cursors-4u.net/nature/nat-10/nat983.cur'), auto;
+    }
+    h1, h2, h3, .cartoon-font {
+      font-family: 'Fredoka One', cursive;
+    }
+    .comic-border {
+      border: 4px solid #1e293b;
+      box-shadow: 8px 8px 0 #1e293b;
+    }
+    @media (min-width: 768px) {
+      .comic-border {
+        border-width: 6px;
+        box-shadow: 12px 12px 0 #1e293b;
+      }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(2deg); }
+    }
+    @keyframes gentle-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-float {
+      animation: float 5s ease-in-out infinite;
+    }
+    .story-card {
+      transition: all 0.3s ease;
+      background: #fff;
+      border-radius: 2.5rem;
+    }
+    .story-card:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 16px 16px 0 #1e293b;
+    }
+    @media (min-width: 768px) {
+      .story-card:hover {
+        box-shadow: 22px 22px 0 #1e293b;
+      }
+    }
+    .character-badge {
+      background: white;
+      border: 3px solid #1e293b;
+      border-radius: 2rem;
+      padding: 0.5rem 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      box-shadow: 4px 4px 0 #1e293b;
+    }
+    .page-turn {
+      background: #fbbf24;
+      border: 4px solid #1e293b;
+      box-shadow: 6px 6px 0 #1e293b;
+      transition: all 0.2s;
+    }
+    .page-turn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #1e293b;
+    }
+    .cloud-bg {
+      background: #ffffffdd;
+      backdrop-filter: blur(10px);
+    }
+    .highlight {
+      background: #fef08a;
+      padding: 0.2em 0.5em;
+      border-radius: 1rem;
+      display: inline-block;
+      transform: rotate(-1deg);
+    }
+  </style>
+</head>
+<body class="overflow-x-hidden">
+
+  <!-- Navigation (consistent with main site) -->
+  <nav class="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-6xl bg-white/95 z-50 rounded-3xl p-3 md:p-4 border-4 border-slate-800 flex justify-between items-center comic-border" style="box-shadow: 8px 8px 0 #1e293b;">
+    <div class="flex items-center gap-2 md:gap-4">
+      <a href="index.html" class="w-10 md:w-12 hover:animate-bounce">
+        <img src="/assets/logo.png" alt="Squad Squish" onerror="this.src='https://placehold.co/40x40?text=S'">
+      </a>
+      <span class="hidden md:block cartoon-font text-purple-600 text-lg">📖 STORY MODE</span>
+    </div>
+    <div class="flex gap-3 md:gap-6 cartoon-font text-slate-700 text-sm md:text-lg uppercase">
+      <a href="index.html" class="hover:text-pink-500">Home</a>
+      <a href="game.html" class="hover:text-green-500">Game</a>
+      <a href="tv.html" class="hover:text-purple-500">TV</a>
+    </div>
+  </nav>
+
+  <!-- Main Story Content -->
+  <main class="relative pt-28 md:pt-36 pb-20 px-4 max-w-6xl mx-auto">
+    
+    <!-- Chapter Header -->
+    <div class="text-center mb-16 animate-float">
+      <span class="bg-pink-400 text-white px-6 py-2 rounded-full comic-border cartoon-font text-lg md:text-2xl inline-block mb-4">📚 OFFICIAL LORE</span>
+      <h1 class="text-5xl md:text-7xl lg:text-8xl cartoon-font text-purple-700 leading-tight drop-shadow-md">
+        THE LEGEND OF <br class="md:hidden">SILLYVILLE
+      </h1>
+      <p class="text-slate-600 cartoon-font text-xl md:text-2xl mt-4 italic">(as told by Bloop, probably)</p>
+    </div>
+
+    <!-- Story Grid: Interactive Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+      
+      <!-- Chapter 1 -->
+      <div class="story-card comic-border p-6 md:p-8 bg-purple-50 relative group">
+        <div class="character-badge absolute -top-5 -left-2 bg-yellow-300 text-slate-800 text-sm md:text-base">
+          <span class="text-2xl">🌟</span> CHAPTER 1
+        </div>
+        <h2 class="text-3xl md:text-4xl cartoon-font text-purple-600 mt-6 mb-4">The Bounce That Started It All</h2>
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+          <img src="/assets/boing-transparent.png" class="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-xl" alt="Boing" onerror="this.src='https://placehold.co/150x150?text=BOING'">
+          <p class="text-slate-700 font-bold leading-relaxed text-sm md:text-base">
+            <span class="highlight">Boing</span> was just a regular bouncy blob until one day he sneezed so hard he launched himself into the <span class="text-pink-500">Cloud Kingdom</span>. Instead of falling, he started bouncing between clouds, collecting stardust and giggling uncontrollably. That’s when he realized: <span class="cartoon-font text-purple-600">gravity is optional when you’re having fun.</span>
+          </p>
+        </div>
+        <div class="mt-5 flex justify-end">
+          <span class="text-purple-400 text-sm cartoon-font">✨ Boing · Leader</span>
+        </div>
+      </div>
+
+      <!-- Chapter 2 -->
+      <div class="story-card comic-border p-6 md:p-8 bg-green-50 relative group">
+        <div class="character-badge absolute -top-5 -left-2 bg-green-300 text-slate-800 text-sm md:text-base">
+          <span class="text-2xl">🍕</span> CHAPTER 2
+        </div>
+        <h2 class="text-3xl md:text-4xl cartoon-font text-green-600 mt-6 mb-4">The Great Pancake Mountain</h2>
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+          <img src="/assets/munch-transparent.png" class="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-xl" alt="Munch" onerror="this.src='https://placehold.co/150x150?text=MUNCH'">
+          <p class="text-slate-700 font-bold leading-relaxed text-sm md:text-base">
+            <span class="highlight">Munch</span> smelled something syrupy from 12 miles away. He followed his nose straight to a <span class="text-yellow-600">mountain made of pancakes</span>. The locals said it was impossible to eat. Munch just smiled, grabbed a fork the size of a surfboard, and whispered <span class="cartoon-font text-green-600">"Watch me."</span> He became the first Squish to earn the Golden Fork badge.
+          </p>
+        </div>
+        <div class="mt-5 flex justify-end">
+          <span class="text-green-500 text-sm cartoon-font">🍩 Munch · Muscle</span>
+        </div>
+      </div>
+
+      <!-- Chapter 3 -->
+      <div class="story-card comic-border p-6 md:p-8 bg-yellow-50 relative group">
+        <div class="character-badge absolute -top-5 -left-2 bg-yellow-300 text-slate-800 text-sm md:text-base">
+          <span class="text-2xl">⚡</span> CHAPTER 3
+        </div>
+        <h2 class="text-3xl md:text-4xl cartoon-font text-yellow-600 mt-6 mb-4">Race Against the Lazy Snail</h2>
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+          <img src="/assets/zippy-transparent.png" class="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-xl" alt="Zippy" onerror="this.src='https://placehold.co/150x150?text=ZIPPY'">
+          <p class="text-slate-700 font-bold leading-relaxed text-sm md:text-base">
+            <span class="highlight">Zippy</span> is the fastest creature in Sillyville — except when he's napping. One afternoon, a very slow snail challenged him to a race. Zippy zoomed ahead, got distracted by a rainbow, ate three cloud berries, and <span class="text-yellow-500">fell asleep inside a flower</span>. The snail won. Zippy declared it "the best nap-race ever."
+          </p>
+        </div>
+        <div class="mt-5 flex justify-end">
+          <span class="text-yellow-600 text-sm cartoon-font">🐌 Zippy · Speed</span>
+        </div>
+      </div>
+
+      <!-- Chapter 4 -->
+      <div class="story-card comic-border p-6 md:p-8 bg-pink-50 relative group">
+        <div class="character-badge absolute -top-5 -left-2 bg-pink-300 text-slate-800 text-sm md:text-base">
+          <span class="text-2xl">🌀</span> CHAPTER 4
+        </div>
+        <h2 class="text-3xl md:text-4xl cartoon-font text-pink-600 mt-6 mb-4">The Day Everything Went Backwards</h2>
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+          <img src="/assets/goofy-transparent.png" class="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-xl" alt="Goofy" onerror="this.src='https://placehold.co/150x150?text=GOOFY'">
+          <p class="text-slate-700 font-bold leading-relaxed text-sm md:text-base">
+            <span class="highlight">Goofy</span> accidentally turned on the <span class="text-pink-400">Reverse-a-ma-tron 3000</span>. Suddenly, rain fell upwards, dogs meowed, and everyone walked on their hands. Goofy thought it was Tuesday. It took Bloop three hours and a giant calculator to fix it, while Goofy tried to high-five a mirror.
+          </p>
+        </div>
+        <div class="mt-5 flex justify-end">
+          <span class="text-pink-500 text-sm cartoon-font">🤪 Goofy · Chaos</span>
+        </div>
+      </div>
+
+      <!-- Chapter 5 -->
+      <div class="story-card comic-border p-6 md:p-8 bg-blue-50 relative group md:col-span-2 lg:col-span-1">
+        <div class="character-badge absolute -top-5 -left-2 bg-blue-300 text-slate-800 text-sm md:text-base">
+          <span class="text-2xl">📘</span> CHAPTER 5
+        </div>
+        <h2 class="text-3xl md:text-4xl cartoon-font text-blue-600 mt-6 mb-4">Bloop’s Big Brain Plan</h2>
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+          <img src="/assets/bloop-transparent.png" class="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-xl" alt="Bloop" onerror="this.src='https://placehold.co/150x150?text=BLOOP'">
+          <p class="text-slate-700 font-bold leading-relaxed text-sm md:text-base">
+            <span class="highlight">Bloop</span> loves books more than bouncing. When the squad needed a plan to rescue the lost Giggle Gem, Bloop read 47 scrolls and invented a <span class="text-blue-500">mathematical hug formula</span>. It worked perfectly — the gem was so touched it floated right back into Boing’s hands. Bloop took a nap afterward.
+          </p>
+        </div>
+        <div class="mt-5 flex justify-end">
+          <span class="text-blue-500 text-sm cartoon-font">🧠 Bloop · Brains</span>
+        </div>
+      </div>
+
+      <!-- Bonus: Sillyville Map -->
+      <div class="story-card comic-border p-6 md:p-8 bg-orange-50 relative group md:col-span-2 lg:col-span-1">
+        <div class="character-badge absolute -top-5 -left-2 bg-orange-300 text-slate-800 text-sm md:text-base">
+          <span class="text-2xl">🗺️</span> MAP
+        </div>
+        <h2 class="text-3xl md:text-4xl cartoon-font text-orange-600 mt-6 mb-4">Welcome to Sillyville</h2>
+        <div class="grid grid-cols-2 gap-3 text-center">
+          <div class="bg-white p-3 rounded-2xl border-2 border-slate-800 shadow-sm">
+            <span class="text-2xl">🏰</span>
+            <p class="cartoon-font text-purple-700 text-sm">Giggle Castle</p>
+          </div>
+          <div class="bg-white p-3 rounded-2xl border-2 border-slate-800 shadow-sm">
+            <span class="text-2xl">🌋</span>
+            <p class="cartoon-font text-red-500 text-sm">Popcorn Volcano</p>
+          </div>
+          <div class="bg-white p-3 rounded-2xl border-2 border-slate-800 shadow-sm">
+            <span class="text-2xl">🍬</span>
+            <p class="cartoon-font text-pink-500 text-sm">Cotton Candy Forest</p>
+          </div>
+          <div class="bg-white p-3 rounded-2xl border-2 border-slate-800 shadow-sm">
+            <span class="text-2xl">🌈</span>
+            <p class="cartoon-font text-blue-500 text-sm">Rainbow River</p>
+          </div>
+        </div>
+        <p class="text-slate-600 text-sm font-bold mt-4 text-center">Every corner hides a new adventure!</p>
+      </div>
+    </div>
+
+    <!-- Interactive "What happens next?" -->
+    <div class="mt-20 text-center bg-white p-8 md:p-12 rounded-[3rem] comic-border max-w-2xl mx-auto">
+      <h3 class="text-3xl md:text-4xl cartoon-font text-purple-600 mb-6">📖 YOU CHOOSE!</h3>
+      <p class="text-slate-700 font-bold mb-6">What should the squad do tomorrow?</p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <button onclick="alert('Boing suggests a bounce contest! 🎈')" class="page-turn bg-purple-400 text-white px-6 py-3 rounded-full cartoon-font text-lg">Bounce Contest</button>
+        <button onclick="alert('Munch wants to bake a cookie the size of a car! 🍪')" class="page-turn bg-green-400 text-white px-6 py-3 rounded-full cartoon-font text-lg">Giant Cookie</button>
+        <button onclick="alert('Zippy votes for nap time... zzz ⚡')" class="page-turn bg-yellow-400 text-slate-800 px-6 py-3 rounded-full cartoon-font text-lg">Super Nap</button>
+      </div>
+      <p class="text-xs text-slate-400 mt-6">(More stories coming soon — maybe written by Goofy!)</p>
+    </div>
+
+    <!-- Back to main site -->
+    <div class="mt-16 text-center">
+      <a href="index.html" class="inline-flex items-center gap-3 bg-slate-800 text-white px-8 py-4 rounded-full cartoon-font text-xl comic-border hover:bg-purple-700 transition-all">
+        ← BACK TO SQUAD HQ
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-white py-10 px-4 text-center">
+    <p class="cartoon-font text-xl">SQUAD SQUISH! © 2024 · NO LOGIC, JUST STORIES</p>
+    <div class="flex justify-center gap-6 mt-4 text-2xl">
+      <a href="index.html" class="hover:text-pink-400">🏠</a>
+      <a href="game.html" class="hover:text-green-400">🎮</a>
+      <a href="tv.html" class="hover:text-purple-400">📺</a>
+    </div>
+  </footer>
+
+</body>
+</html>

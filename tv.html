@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaos TV | Squad Squish! Live</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Quicksand', sans-serif; background-color: #1e1b4b; color: white; }
+        h1, h2, h3, .cartoon-font { font-family: 'Fredoka One', cursive; }
+
+        /* TV SCANLINE EFFECT */
+        .tv-screen::after {
+            content: " ";
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* STATIC ANIMATION */
+        @keyframes static-noise {
+            0% { transform: translate(0,0) }
+            10% { transform: translate(-5%,-5%) }
+            20% { transform: translate(-10%,5%) }
+            30% { transform: translate(5%,-10%) }
+            40% { transform: translate(-5%,15%) }
+            50% { transform: translate(-10%,5%) }
+            60% { transform: translate(15%,0) }
+            70% { transform: translate(0,10%) }
+            80% { transform: translate(-15%,0) }
+            90% { transform: translate(10%,5%) }
+            100% { transform: translate(5%,0) }
+        }
+        .static-overlay {
+            background-image: url('https://media.giphy.com/media/oEI9uWUicG3L2/giphy.gif');
+            background-size: cover;
+            opacity: 0.15;
+            mix-blend-mode: screen;
+        }
+
+        .comic-border { border: 6px solid #000; }
+        .pink-glow { box-shadow: 0 0 30px rgba(236, 72, 153, 0.5); }
+        
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+
+        /* Hide Scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- NAVIGATION (Matches Main Site) -->
+    <nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-6xl bg-white/10 backdrop-blur-md z-[100] rounded-3xl p-3 border-2 border-white/20 flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-3">
+            <img src="logo.png" class="w-10 md:w-12" alt="Logo">
+            <span class="cartoon-font text-white text-xl hidden sm:block tracking-widest">SQUAD SQUISH!</span>
+        </a>
+        <div class="flex gap-4 md:gap-8 cartoon-font text-white/80 text-sm md:text-base">
+            <a href="index.html" class="hover:text-yellow-400">HOME</a>
+            <a href="index.html#characters" class="hover:text-pink-400">SQUAD</a>
+            <a href="index.html#game" class="hover:text-green-400">GAME</a>
+        </div>
+        <a href="index.html" class="bg-yellow-400 text-indigo-900 px-5 py-2 rounded-xl cartoon-font text-sm hover:scale-105 transition-transform">BACK HOME</a>
+    </nav>
+
+    <!-- MAIN TV THEATER -->
+    <section class="min-h-screen pt-28 pb-20 px-4 md:px-10 flex flex-col items-center">
+        
+        <div class="w-full max-w-6xl flex flex-col lg:flex-row gap-8">
+            
+            <!-- LEFT: THE TV PLAYER -->
+            <div class="w-full lg:w-3/4">
+                <div class="relative bg-black rounded-[2rem] md:rounded-[4rem] comic-border pink-glow overflow-hidden tv-screen aspect-video shadow-2xl">
+                    
+                    <!-- Channel Image Layer -->
+                    <img id="tv-content" src="/sillyville.png" class="w-full h-full object-cover transition-all duration-500 blur-0" alt="Channel Content">
+                    
+                    <!-- Static Overlay (shown when switching) -->
+                    <div id="static" class="absolute inset-0 static-overlay hidden z-20"></div>
+
+                    <!-- HUD Overlay -->
+                    <div class="absolute top-6 left-6 md:top-10 md:left-10 z-30 flex items-center gap-4">
+                        <div class="bg-red-600 text-white px-4 py-1 rounded-full cartoon-font text-sm animate-pulse flex items-center gap-2">
+                            <span class="w-2 h-2 bg-white rounded-full"></span> LIVE
+                        </div>
+                        <div class="bg-black/50 backdrop-blur-md text-white px-4 py-1 rounded-xl cartoon-font text-sm border border-white/20">
+                            CH: <span id="ch-number">01</span> - <span id="ch-name" class="uppercase">Sillyville General</span>
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-6 left-6 md:bottom-10 md:left-10 z-30">
+                        <h2 id="ep-title" class="text-2xl md:text-4xl cartoon-font text-white drop-shadow-lg">Welcome to Chaos TV!</h2>
+                        <p id="ep-desc" class="text-sm md:text-lg text-white/80 font-bold max-w-md">The only channel where zero logic is allowed 24/7.</p>
+                    </div>
+
+                    <!-- Volume Control Decoration -->
+                    <div class="absolute right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col gap-2 items-center opacity-40 hover:opacity-100 transition-opacity">
+                        <div class="w-2 h-24 bg-white/20 rounded-full relative overflow-hidden">
+                            <div class="absolute bottom-0 w-full h-[80%] bg-blue-400"></div>
+                        </div>
+                        <span class="text-xs cartoon-font">VOL</span>
+                    </div>
+                </div>
+
+                <!-- PLAYER CONTROLS -->
+                <div class="mt-8 flex flex-wrap gap-4 items-center justify-between bg-white/5 p-6 rounded-3xl border border-white/10">
+                    <div class="flex gap-4">
+                        <button onclick="changeChannel('sillyville')" class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-all">⏮</button>
+                        <button class="w-16 h-12 bg-pink-500 rounded-full flex items-center justify-center text-2xl shadow-lg">⏸</button>
+                        <button onclick="changeChannel('munch')" class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-all">⏭</button>
+                    </div>
+                    <div class="flex gap-4">
+                        <button onclick="addReaction('❤️')" class="text-2xl hover:scale-150 transition-transform">❤️</button>
+                        <button onclick="addReaction('🔥')" class="text-2xl hover:scale-150 transition-transform">🔥</button>
+                        <button onclick="addReaction('😂')" class="text-2xl hover:scale-150 transition-transform">😂</button>
+                        <button onclick="addReaction('🍕')" class="text-2xl hover:scale-150 transition-transform">🍕</button>
+                        <button onclick="addReaction('⚡')" class="text-2xl hover:scale-150 transition-transform">⚡</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: CHANNEL SELECTOR (SQUAD) -->
+            <div class="w-full lg:w-1/4 flex flex-col gap-6">
+                <h3 class="cartoon-font text-2xl text-yellow-400 uppercase tracking-widest">Switch Channels</h3>
+                <div class="grid grid-cols-1 gap-4">
+                    
+                    <!-- Channel Boing -->
+                    <button onclick="changeChannel('boing')" class="group flex items-center gap-4 bg-purple-900/40 p-4 rounded-2xl border-2 border-purple-500/30 hover:border-purple-400 transition-all text-left">
+                        <img src="boing-transparent.png" class="w-14 h-14 object-contain group-hover:animate-bounce" alt="Boing">
+                        <div>
+                            <p class="cartoon-font text-purple-300">CH 02</p>
+                            <p class="font-bold text-white uppercase">Boing's Bounce-A-Thon</p>
+                        </div>
+                    </button>
+
+                    <!-- Channel Munch -->
+                    <button onclick="changeChannel('munch')" class="group flex items-center gap-4 bg-green-900/40 p-4 rounded-2xl border-2 border-green-500/30 hover:border-green-400 transition-all text-left">
+                        <img src="munch-transparent.png" class="w-14 h-14 object-contain group-hover:animate-bounce" alt="Munch">
+                        <div>
+                            <p class="cartoon-font text-green-300">CH 03</p>
+                            <p class="font-bold text-white uppercase">The Snack Show</p>
+                        </div>
+                    </button>
+
+                    <!-- Channel Zippy -->
+                    <button onclick="changeChannel('zippy')" class="group flex items-center gap-4 bg-yellow-900/40 p-4 rounded-2xl border-2 border-yellow-500/30 hover:border-yellow-400 transition-all text-left">
+                        <img src="zippy-transparent.png" class="w-14 h-14 object-contain group-hover:animate-bounce" alt="Zippy">
+                        <div>
+                            <p class="cartoon-font text-yellow-300">CH 04</p>
+                            <p class="font-bold text-white uppercase">Lightning Fast Fun</p>
+                        </div>
+                    </button>
+
+                    <!-- Channel Goofy -->
+                    <button onclick="changeChannel('goofy')" class="group flex items-center gap-4 bg-pink-900/40 p-4 rounded-2xl border-2 border-pink-500/30 hover:border-pink-400 transition-all text-left">
+                        <img src="goofy-transparent.png" class="w-14 h-14 object-contain group-hover:animate-bounce" alt="Goofy">
+                        <div>
+                            <p class="cartoon-font text-pink-300">CH 05</p>
+                            <p class="font-bold text-white uppercase">Chaos Hour</p>
+                        </div>
+                    </button>
+
+                    <!-- Channel Bloop -->
+                    <button onclick="changeChannel('bloop')" class="group flex items-center gap-4 bg-blue-900/40 p-4 rounded-2xl border-2 border-blue-500/30 hover:border-blue-400 transition-all text-left">
+                        <img src="bloop-transparent.png" class="w-14 h-14 object-contain group-hover:animate-bounce" alt="Bloop">
+                        <div>
+                            <p class="cartoon-font text-blue-300">CH 06</p>
+                            <p class="font-bold text-white uppercase">Calm & Smarty</p>
+                        </div>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM SCHEDULE SECTION -->
+    <section class="py-20 bg-indigo-950 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-6xl cartoon-font text-white mb-12 text-center md:text-left">Silly Schedule 📅</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Time Slot -->
+                <div class="bg-white/5 p-8 rounded-[2.5rem] border-2 border-white/10 hover:bg-white/10 transition-all">
+                    <span class="bg-pink-500 px-4 py-1 rounded-full cartoon-font text-sm">14:00 PM</span>
+                    <h4 class="text-2xl cartoon-font mt-4">Pancake Mountain Rescue</h4>
+                    <p class="text-slate-400 mt-2">Munch accidentally eats a mountain, and the squad has to bounce him down!</p>
+                </div>
+
+                <!-- Time Slot -->
+                <div class="bg-white/5 p-8 rounded-[2.5rem] border-2 border-white/10 hover:bg-white/10 transition-all">
+                    <span class="bg-yellow-500 px-4 py-1 rounded-full cartoon-font text-sm text-indigo-900">15:30 PM</span>
+                    <h4 class="text-2xl cartoon-font mt-4">Zippy vs. The Boredom</h4>
+                    <p class="text-slate-400 mt-2">Zippy runs so fast he breaks the concept of boredom itself.</p>
+                </div>
+
+                <!-- Time Slot -->
+                <div class="bg-white/5 p-8 rounded-[2.5rem] border-2 border-white/10 hover:bg-white/10 transition-all">
+                    <span class="bg-purple-500 px-4 py-1 rounded-full cartoon-font text-sm">17:00 PM</span>
+                    <h4 class="text-2xl cartoon-font mt-4">The Silence Experiment</h4>
+                    <p class="text-slate-400 mt-2">Bloop tries to teach the squad about quiet. It goes very, very wrong.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE REACTION WALL -->
+    <section class="py-20 bg-white text-indigo-900 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl cartoon-font mb-6">Silly Chat! 💬</h2>
+            <div class="h-64 bg-slate-100 rounded-[3rem] border-4 border-indigo-900 comic-shadow p-6 overflow-hidden relative">
+                <div id="chat-messages" class="flex flex-col gap-4 text-left font-bold text-lg">
+                    <p class="text-pink-500 italic">Boing_Fan: LOL MUNCH IS SO HUNGRY!!</p>
+                    <p class="text-blue-500 italic">Bloop_Official: Quiet please, I'm watching.</p>
+                    <p class="text-green-600 italic">SnackMaster99: Anyone got a cookie? 🍪</p>
+                    <p class="text-purple-600 italic">ChaosQueen: TURN UP THE VOLUME!!!</p>
+                </div>
+                <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-slate-100 to-transparent"></div>
+            </div>
+            <div class="mt-8 flex gap-4">
+                <input id="chat-input" type="text" placeholder="Type something silly..." class="bg-white border-4 border-indigo-900 rounded-2xl p-4 flex-grow outline-none cartoon-font">
+                <button onclick="sendSillyMessage()" class="bg-indigo-900 text-white px-8 py-4 rounded-2xl cartoon-font border-b-8 border-slate-950 active:border-0 active:translate-y-2 transition-all">SEND</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (Matching Main Site) -->
+    <footer class="bg-slate-950 pt-20 pb-10 text-white text-center">
+        <div class="w-20 mx-auto mb-8 animate-float">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <div class="flex flex-wrap justify-center gap-10 cartoon-font text-xl mb-12 opacity-60">
+            <a href="index.html">HOME</a>
+            <a href="index.html#characters">SQUAD</a>
+            <a href="index.html#game">GAMES</a>
+            <a href="#">SHOP</a>
+        </div>
+        <p class="cartoon-font text-indigo-700 text-2xl tracking-widest uppercase mb-4">SQUAD SQUISH! TV</p>
+        <p class="text-slate-500 text-sm">© 2024 Squad Squish TV. Please adjust your rabbit ears.</p>
+    </footer>
+
+    <!-- INTERACTIVE TV LOGIC -->
+    <script>
+        const channelData = {
+            sillyville: {
+                num: "01",
+                name: "Sillyville General",
+                title: "Welcome to Chaos TV!",
+                desc: "The only channel where zero logic is allowed 24/7.",
+                img: "/sillyville.png"
+            },
+            boing: {
+                num: "02",
+                name: "Boing's Bounce-A-Thon",
+                title: "EP 05: The Sky is Not the Limit",
+                desc: "Boing tries to bounce past the stars. Will he make it back for dinner?",
+                img: "/wallapaper.png" // Using the landscape for variety
+            },
+            munch: {
+                num: "03",
+                name: "The Snack Show",
+                title: "EP 12: The Infinite Cookie Jar",
+                desc: "Munch finds a jar that never empties. It's a dream come true... or a nightmare?",
+                img: "/sillyville.png"
+            },
+            zippy: {
+                num: "04",
+                name: "Lightning Fast Fun",
+                title: "EP 01: Blink and You'll Miss It",
+                desc: "Zippy tries to clean the whole town in 2 seconds. Spoiler: it's messy.",
+                img: "/wallapaper.png"
+            },
+            goofy: {
+                num: "05",
+                name: "Chaos Hour",
+                title: "EP 99: Banana Peel Panic",
+                desc: "Goofy drops a banana peel. Everyone in Sillyville starts sliding!",
+                img: "/sillyville.png"
+            },
+            bloop: {
+                num: "06",
+                name: "Calm & Smarty",
+                title: "EP 03: The Library of Clouds",
+                desc: "Bloop visits the quietest place in the world. He's very happy.",
+                img: "/wallapaper.png"
+            }
+        };
+
+        function changeChannel(key) {
+            const staticOverlay = document.getElementById('static');
+            const tvImg = document.getElementById('tv-content');
+            
+            // Show static for a "switching" feel
+            staticOverlay.classList.remove('hidden');
+            tvImg.style.filter = "blur(10px) contrast(200%)";
+
+            setTimeout(() => {
+                const data = channelData[key];
+                document.getElementById('ch-number').innerText = data.num;
+                document.getElementById('ch-name').innerText = data.name;
+                document.getElementById('ep-title').innerText = data.title;
+                document.getElementById('ep-desc').innerText = data.desc;
+                tvImg.src = data.img;
+
+                staticOverlay.classList.add('hidden');
+                tvImg.style.filter = "blur(0) contrast(100%)";
+            }, 300);
+        }
+
+        function addReaction(emoji) {
+            const overlay = document.createElement('div');
+            overlay.innerText = emoji;
+            overlay.className = "fixed pointer-events-none text-6xl animate-bounce z-[200]";
+            overlay.style.left = Math.random() * 80 + 10 + '%';
+            overlay.style.top = '70%';
+            document.body.appendChild(overlay);
+            
+            setTimeout(() => overlay.remove(), 1000);
+        }
+
+        function sendSillyMessage() {
+            const input = document.getElementById('chat-input');
+            if (input.value.trim() === "") return;
+
+            const chat = document.getElementById('chat-messages');
+            const p = document.createElement('p');
+            p.className = "text-yellow-600 italic";
+            p.innerText = "You: " + input.value;
+            chat.prepend(p);
+            input.value = "";
+        }
+    </script>
+
+</body>
+</html>
