@@ -1,267 +1,1468 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLAY THE GAME! | Squad Squish!</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Quicksand', sans-serif; background: #f0fdf4; cursor: url('https://cur.cursors-4u.net/nature/nat-10/nat983.cur'), auto; }
-        h1,h2,h3,h4,.cartoon-font { font-family: 'Fredoka One', cursive; }
-        @keyframes wiggle{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
-        @keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(2deg)}}
-        @keyframes bounce-high{0%,100%{transform:translateY(0)}50%{transform:translateY(-40px)}}
-        @keyframes download-pulse {
-            0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.6), 12px 12px 0px #1e293b}
-            50%{box-shadow:0 0 0 20px rgba(34,197,94,0), 12px 12px 0px #1e293b}
-        }
-        @keyframes pop-in{0%{transform:scale(0) rotate(-10deg);opacity:0}80%{transform:scale(1.1) rotate(2deg)}100%{transform:scale(1) rotate(0);opacity:1}}
-        @keyframes slide-up{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
-        @keyframes controller-shake {
-            0%,100%{transform:rotate(-5deg)}25%{transform:rotate(5deg) scale(1.05)}50%{transform:rotate(-3deg)}75%{transform:rotate(4deg) scale(1.05)}
-        }
-        @keyframes progress-bar {
-            0%{width:0%}100%{width:100%}
-        }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-        .animate-wiggle { animation: wiggle 0.4s ease-in-out infinite; }
-        .animate-bounce-high { animation: bounce-high 1.5s ease-in-out infinite; }
-        .download-btn { animation: download-pulse 2s ease-in-out infinite; }
-        .animate-controller { animation: controller-shake 0.8s ease-in-out infinite; }
-        .comic-border{border:6px solid #1e293b}
-        .comic-shadow{box-shadow:12px 12px 0px #1e293b}
-        .pop-in{animation:pop-in 0.5s cubic-bezier(0.175,0.885,0.32,1.275) forwards;opacity:0}
-        .slide-up{animation:slide-up 0.6s ease forwards;opacity:0}
-        ::-webkit-scrollbar{width:15px}::-webkit-scrollbar-track{background:#dcfce7}::-webkit-scrollbar-thumb{background:#16a34a;border:4px solid #dcfce7;border-radius:10px}
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#7138d0">
+  <meta name="description" content="Play Giggle Gem Rescue, a Squad Squish adventure through Sillyville.">
+  <title>Giggle Gem Rescue | Squad Squish!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #20213b;
+      --paper: #fffdf6;
+      --purple: #7138d0;
+      --purple-dark: #4c2496;
+      --yellow: #ffd83d;
+      --green: #50ce78;
+      --pink: #ff69a8;
+      --blue: #5cc9ee;
+      --shadow: 0 8px 0 var(--ink);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      font-family: "Nunito", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 12% 3%, rgba(255,255,255,.8) 0 5%, transparent 5.2%),
+        radial-gradient(circle at 88% 10%, rgba(255,255,255,.45) 0 7%, transparent 7.2%),
+        linear-gradient(150deg, #b89cff 0%, #f1ccff 48%, #90e8f5 100%);
+      overflow-x: hidden;
+    }
+
+    button, a { font: inherit; }
+    button { color: inherit; }
+    img { max-width: 100%; }
+
+    .skip-link {
+      position: fixed;
+      z-index: 100;
+      left: 1rem;
+      top: -5rem;
+      padding: .75rem 1rem;
+      color: white;
+      background: var(--ink);
+      border-radius: .75rem;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    .topbar {
+      position: relative;
+      z-index: 20;
+      width: min(1180px, calc(100% - 28px));
+      margin: 14px auto 0;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 14px;
+      background: rgba(255,253,246,.94);
+      border: 4px solid var(--ink);
+      border-radius: 22px;
+      box-shadow: 0 6px 0 rgba(32,33,59,.22);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .brand img { width: 48px; height: 48px; object-fit: contain; }
+    .brand small { display: block; color: #765e8e; font: 800 .66rem "Nunito", sans-serif; letter-spacing: .12em; margin-top: 5px; }
+
+    .nav-link, .icon-button {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      text-decoration: none;
+      font-weight: 900;
+      border: 3px solid var(--ink);
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 4px 0 var(--ink);
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .nav-link:hover, .icon-button:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--ink); }
+    .nav-link:active, .icon-button:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+    .nav-actions { display: flex; gap: 8px; }
+    .icon-button { width: 46px; padding: 6px; font-size: 1.2rem; }
+
+    main { padding: 42px 14px 80px; }
+
+    .intro {
+      width: min(1020px, 100%);
+      margin: 0 auto 28px;
+      text-align: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      background: var(--yellow);
+      border: 3px solid var(--ink);
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      transform: rotate(-1deg);
+    }
+    h1, h2, h3, .display { font-family: "Fredoka", sans-serif; }
+    h1 {
+      margin: 14px 0 8px;
+      font-size: clamp(3rem, 9vw, 6.4rem);
+      line-height: .88;
+      color: white;
+      letter-spacing: -.04em;
+      text-shadow: 0 5px 0 #5626a5, 0 9px 0 var(--ink);
+    }
+    .intro p {
+      max-width: 760px;
+      margin: 18px auto 0;
+      color: #3c3156;
+      font-size: clamp(1rem, 2.5vw, 1.28rem);
+      font-weight: 800;
+    }
+
+    .game-shell {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 10px;
+      background: var(--ink);
+      border: 4px solid var(--ink);
+      border-radius: 30px;
+      box-shadow: 0 12px 0 rgba(67,35,109,.45), 0 24px 50px rgba(55,29,89,.25);
+    }
+
+    .game-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 5 / 3;
+      min-height: 360px;
+      overflow: hidden;
+      background: #9de8ff;
+      border-radius: 18px;
+      isolation: isolate;
+    }
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+    }
+
+    .screen {
+      position: absolute;
+      z-index: 5;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: linear-gradient(145deg, rgba(67,26,132,.92), rgba(123,56,208,.9));
+      overflow: auto;
+    }
+    .screen[hidden], .hud[hidden], .touch-controls[hidden] { display: none !important; }
+
+    .start-card {
+      width: min(920px, 100%);
+      padding: clamp(18px, 4vw, 34px);
+      background: rgba(255,253,246,.98);
+      border: 5px solid var(--ink);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .start-card h2 { margin: 0; font-size: clamp(2rem, 5vw, 3.4rem); color: var(--purple); line-height: 1; }
+    .mission-copy { max-width: 700px; margin: 10px auto 18px; color: #635475; font-weight: 800; }
+
+    .character-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .character-card {
+      position: relative;
+      min-width: 0;
+      padding: 8px 5px 10px;
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      background: var(--card-color, #eee);
+      box-shadow: 0 4px 0 var(--ink);
+      cursor: pointer;
+      transition: transform .16s, box-shadow .16s, outline .16s;
+    }
+    .character-card:hover { transform: translateY(-4px) rotate(-1deg); box-shadow: 0 8px 0 var(--ink); }
+    .character-card[aria-pressed="true"] { outline: 5px solid white; box-shadow: 0 0 0 9px var(--accent), 0 8px 0 9px var(--ink); transform: translateY(-4px); z-index: 2; }
+    .character-card img { width: 86px; height: 86px; object-fit: contain; filter: drop-shadow(0 5px 2px rgba(35,31,54,.18)); pointer-events: none; }
+    .character-card strong { display: block; font: 700 clamp(.78rem, 2vw, 1.05rem) "Fredoka", sans-serif; text-transform: uppercase; }
+
+    .selection-info {
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      margin-top: 20px;
+      text-align: left;
+      background: #f3edff;
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+    }
+    .selection-info h3 { margin: 0 0 2px; color: var(--purple); font-size: 1.35rem; }
+    .selection-info p { margin: 0; font-size: .92rem; font-weight: 800; color: #5f5370; }
+    .ability-badge { padding: 8px 12px; border-radius: 999px; border: 3px solid var(--ink); background: var(--yellow); font-weight: 900; white-space: nowrap; }
+
+    .primary-button, .secondary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 52px;
+      margin-top: 15px;
+      padding: 12px 25px;
+      border: 4px solid var(--ink);
+      border-radius: 16px;
+      background: var(--green);
+      color: var(--ink);
+      box-shadow: 0 6px 0 var(--ink);
+      font-family: "Fredoka", sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .primary-button:hover, .secondary-button:hover { transform: translateY(-2px); box-shadow: 0 8px 0 var(--ink); }
+    .primary-button:active, .secondary-button:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--ink); }
+    .secondary-button { background: white; }
+
+    .controls-line { margin: 14px 0 0; color: #786b86; font-size: .78rem; font-weight: 900; }
+    kbd { display: inline-block; min-width: 25px; padding: 2px 6px; background: white; border: 2px solid #90859d; border-radius: 6px; box-shadow: 0 2px 0 #90859d; color: #473b55; }
+
+    .hud {
+      position: absolute;
+      z-index: 3;
+      inset: 0;
+      pointer-events: none;
+    }
+    .hud-row {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .hud-cluster { display: flex; gap: 8px; flex-wrap: wrap; }
+    .hud-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 42px;
+      padding: 7px 12px;
+      background: rgba(255,253,246,.94);
+      border: 3px solid var(--ink);
+      border-radius: 14px;
+      box-shadow: 0 4px 0 rgba(32,33,59,.75);
+      font-weight: 900;
+    }
+    .hud-pill strong { font-family: "Fredoka", sans-serif; }
+    .district-pill { max-width: 260px; }
+    .district-pill span { display: block; color: #786b86; font-size: .63rem; letter-spacing: .08em; text-transform: uppercase; }
+
+    .ability-wrap {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      width: min(430px, calc(100% - 190px));
+      padding: 8px 11px 9px;
+      background: rgba(255,253,246,.95);
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      box-shadow: 0 4px 0 rgba(32,33,59,.75);
+    }
+    .ability-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: .68rem; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
+    .ability-track { height: 14px; overflow: hidden; background: #d7d3dd; border: 2px solid var(--ink); border-radius: 999px; }
+    .ability-fill { width: 30%; height: 100%; background: linear-gradient(90deg, #6d36d0, #ff6fb5, #ffd83d); transition: width .15s; }
+    .ability-wrap.ready { animation: readyPulse .8s ease-in-out infinite alternate; }
+
+    .pause-button {
+      position: absolute;
+      z-index: 4;
+      right: 14px;
+      bottom: 14px;
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--ink);
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 4px 0 var(--ink);
+      font-size: 1.15rem;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    .announcer {
+      position: absolute;
+      z-index: 4;
+      top: 90px;
+      left: 50%;
+      width: max-content;
+      max-width: calc(100% - 30px);
+      transform: translate(-50%, -20px) scale(.9);
+      padding: 10px 18px;
+      opacity: 0;
+      background: var(--yellow);
+      border: 3px solid var(--ink);
+      border-radius: 999px;
+      box-shadow: 0 5px 0 var(--ink);
+      font-family: "Fredoka", sans-serif;
+      text-align: center;
+      pointer-events: none;
+      transition: opacity .2s, transform .25s;
+    }
+    .announcer.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
+
+    .modal-card {
+      width: min(520px, 100%);
+      padding: 28px;
+      text-align: center;
+      background: var(--paper);
+      border: 5px solid var(--ink);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+    .modal-card .big-icon { font-size: 4rem; line-height: 1; }
+    .modal-card h2 { margin: 8px 0; color: var(--purple); font-size: clamp(2.2rem, 7vw, 4rem); line-height: .95; }
+    .modal-card p { margin: 8px 0; font-weight: 800; color: #645474; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 20px 0 8px; }
+    .stat { padding: 10px 5px; background: #f0e8ff; border: 3px solid var(--ink); border-radius: 14px; }
+    .stat strong { display: block; font: 700 1.5rem "Fredoka", sans-serif; color: var(--purple); }
+    .stat span { font-size: .68rem; font-weight: 900; text-transform: uppercase; }
+    .button-row { display: flex; justify-content: center; gap: 9px; flex-wrap: wrap; }
+
+    .touch-controls {
+      width: min(680px, calc(100% - 18px));
+      margin: 12px auto 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .dpad { display: grid; grid-template-columns: repeat(3, 54px); grid-template-rows: repeat(2, 54px); gap: 6px; }
+    .touch-button {
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 5px 0 var(--ink);
+      font-size: 1.3rem;
+      font-weight: 900;
+      touch-action: none;
+    }
+    .touch-button[data-key="up"] { grid-column: 2; }
+    .touch-button[data-key="left"] { grid-column: 1; grid-row: 2; }
+    .touch-button[data-key="down"] { grid-column: 2; grid-row: 2; }
+    .touch-button[data-key="right"] { grid-column: 3; grid-row: 2; }
+    .touch-button.active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); background: var(--yellow); }
+    .power-button { width: 100px; height: 100px; border-radius: 50%; color: white; background: var(--purple); font: 700 .9rem "Fredoka", sans-serif; }
+    .power-button span { display: block; font-size: 1.7rem; }
+
+    .mission-board {
+      width: min(1120px, 100%);
+      margin: 42px auto 0;
+      padding: clamp(20px, 4vw, 34px);
+      background: var(--paper);
+      border: 4px solid var(--ink);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+    .mission-board h2 { margin: 0; color: var(--purple); font-size: clamp(1.8rem, 4vw, 3rem); }
+    .mission-board > p { margin: 6px 0 22px; color: #665873; font-weight: 800; }
+    .ability-list { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .ability-item { padding: 13px; border: 3px solid var(--ink); border-radius: 17px; background: var(--tint); }
+    .ability-item img { float: right; width: 52px; height: 52px; object-fit: contain; }
+    .ability-item h3 { margin: 0 0 5px; color: var(--accent); font-size: 1.1rem; }
+    .ability-item p { clear: both; margin: 0; color: #554b60; font-size: .78rem; font-weight: 800; }
+
+    footer { padding: 28px 16px 40px; color: #4f4260; text-align: center; font-weight: 900; }
+    footer a { color: var(--purple-dark); }
+
+    @keyframes readyPulse { to { box-shadow: 0 0 0 6px rgba(255,216,61,.7), 0 4px 0 var(--ink); } }
+    @keyframes bump { 50% { transform: scale(1.13) rotate(-2deg); } }
+    .bump { animation: bump .25s ease; }
+
+    @media (max-width: 760px) {
+      main { padding-top: 28px; }
+      .topbar { min-height: 60px; }
+      .brand span { display: none; }
+      .brand img { width: 40px; height: 40px; }
+      .nav-link span { display: none; }
+      h1 { font-size: clamp(3.2rem, 16vw, 5.2rem); }
+      .game-shell { padding: 6px; border-radius: 22px; }
+      .game-stage { min-height: 0; aspect-ratio: 12 / 17; }
+      .screen { padding: 12px; align-items: flex-start; }
+      .start-card { margin: auto 0; padding: 17px 12px; border-width: 4px; }
+      .character-grid { grid-template-columns: repeat(5, 1fr); gap: 5px; }
+      .character-card { border-width: 2px; border-radius: 12px; padding: 5px 2px 7px; }
+      .character-card img { width: 55px; height: 55px; }
+      .character-card[aria-pressed="true"] { outline-width: 3px; box-shadow: 0 0 0 5px var(--accent), 0 5px 0 5px var(--ink); }
+      .selection-info { grid-template-columns: 1fr; gap: 8px; padding: 10px 12px; }
+      .ability-badge { width: fit-content; padding: 5px 9px; }
+      .controls-line { display: none; }
+      .hud-row { top: 8px; left: 8px; right: 8px; }
+      .hud-pill { min-height: 34px; padding: 4px 7px; border-width: 2px; border-radius: 10px; font-size: .8rem; box-shadow: 0 3px 0 rgba(32,33,59,.75); }
+      .district-pill { position: absolute; top: 43px; left: 0; }
+      .district-pill span { font-size: .55rem; }
+      .ability-wrap { left: 8px; right: 64px; bottom: 8px; width: auto; transform: none; padding: 6px 8px; border-width: 2px; }
+      .pause-button { right: 8px; bottom: 8px; width: 45px; height: 45px; }
+      .announcer { top: 84px; font-size: .82rem; }
+      .ability-list { grid-template-columns: 1fr; }
+      .ability-item img { float: left; margin-right: 10px; }
+      .ability-item p { clear: none; }
+    }
+
+    @media (min-width: 761px) and (pointer: fine) { .touch-controls { display: none !important; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }
+  </style>
 </head>
-<body class="overflow-x-hidden">
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
 
-    <!-- NAV -->
-    <nav class="fixed top-0 left-0 w-full bg-green-600 z-50 px-6 py-4 flex justify-between items-center border-b-4 border-slate-800">
-        <a href="index.html" class="cartoon-font text-white text-2xl hover:text-yellow-300 transition-colors">← Back Home</a>
-        <div class="cartoon-font text-white text-2xl flex items-center gap-2">
-            <span class="animate-bounce-high inline-block">🎮</span> Squad Squish! The Game
-        </div>
-        <a href="tv.html" class="cartoon-font text-green-200 hover:text-white transition-colors">📺 Watch TV</a>
-    </nav>
+  <nav class="topbar" aria-label="Main navigation">
+    <a class="nav-link" href="index.html" aria-label="Back to Sillyville home">← <span>Back home</span></a>
+    <div class="brand">
+      <img src="assets/logo.png" alt="">
+      <span>Squad Squish!<small>SILLYVILLE GAME LAB</small></span>
+    </div>
+    <div class="nav-actions">
+      <a class="icon-button" href="map.html" aria-label="View Sillyville map">🗺️</a>
+      <button class="icon-button" id="soundToggle" type="button" aria-label="Mute game sounds" aria-pressed="false">🔊</button>
+    </div>
+  </nav>
 
-    <!-- HERO -->
-    <section class="min-h-screen bg-gradient-to-b from-green-600 via-green-500 to-green-300 flex items-center justify-center pt-24 px-6 relative overflow-hidden">
-        <!-- Background decorations -->
-        <div class="absolute top-20 left-10 text-9xl opacity-20 animate-wiggle">🎮</div>
-        <div class="absolute top-40 right-10 text-9xl opacity-20 animate-wiggle" style="animation-delay:0.5s">⭐</div>
-        <div class="absolute bottom-20 left-20 text-7xl opacity-20 animate-wiggle" style="animation-delay:1s">🏆</div>
-        <div class="absolute bottom-10 right-16 text-7xl opacity-20 animate-wiggle" style="animation-delay:1.5s">🎯</div>
+  <main>
+    <header class="intro">
+      <span class="eyebrow">✨ A new Sillyville mission</span>
+      <h1>Giggle Gem<br>Rescue!</h1>
+      <p>Goofy bumped the Reverse-a-ma-tron and shattered Sillyville’s Giggle Gem. Pick your Squish, recover all three pieces, and dodge the Grumble Globs!</p>
+    </header>
 
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
-            <div class="slide-up" style="animation-delay:0.1s">
-                <div class="text-9xl animate-controller inline-block mb-6">🎮</div>
-                <h1 class="text-8xl cartoon-font text-white drop-shadow-xl mb-4">Squad Squish!</h1>
-                <h2 class="text-4xl cartoon-font text-yellow-300 mb-6">THE GAME</h2>
-                <p class="text-2xl font-bold text-white/90 leading-relaxed mb-8">Bounce, munch, zoom and wobble your way through Sillyville in the most ridiculous game ever made!</p>
-                <div class="flex flex-wrap gap-3 mb-8">
-                    <span class="bg-white/20 text-white px-5 py-2 rounded-full cartoon-font comic-border">🆓 FREE</span>
-                    <span class="bg-white/20 text-white px-5 py-2 rounded-full cartoon-font comic-border">👶 Ages 4+</span>
-                    <span class="bg-white/20 text-white px-5 py-2 rounded-full cartoon-font comic-border">🌍 All Platforms</span>
-                    <span class="bg-yellow-400 text-slate-800 px-5 py-2 rounded-full cartoon-font comic-border">🔥 HOT NEW GAME</span>
-                </div>
+    <section class="game-shell" id="game" aria-label="Giggle Gem Rescue game">
+      <div class="game-stage" id="gameStage">
+        <canvas id="gameCanvas" width="1000" height="600" aria-label="Top-down arcade game. Move around Sillyville, collect stars, and avoid Grumble Globs."></canvas>
+
+        <div class="screen" id="startScreen">
+          <div class="start-card">
+            <h2>Choose your Squish</h2>
+            <p class="mission-copy">Every squad member can finish the mission, but each has a different super move. Collect stars to charge it!</p>
+            <div class="character-grid" id="characterGrid" role="group" aria-label="Choose a character"></div>
+            <div class="selection-info" aria-live="polite">
+              <div>
+                <h3 id="selectedTitle">Boing · The Bouncy Leader</h3>
+                <p id="selectedDescription">A heroic bounce creates a shockwave and knocks nearby Grumble Globs away.</p>
+              </div>
+              <span class="ability-badge" id="selectedAbility">💥 Mega Bounce</span>
             </div>
-
-            <!-- Download Box -->
-            <div class="pop-in bg-white p-10 rounded-[4rem] comic-border comic-shadow" style="animation-delay:0.2s">
-                <h3 class="cartoon-font text-4xl text-green-700 text-center mb-8">Download Now!</h3>
-
-                <!-- Platform buttons -->
-                <div class="space-y-4 mb-8">
-                    <button onclick="startDownload('PC')" class="download-btn w-full bg-green-500 text-white py-5 rounded-2xl cartoon-font text-2xl comic-border flex items-center justify-center gap-3 hover:-translate-y-1 transition-transform">
-                        <span>💻</span> Download for PC (.exe)
-                    </button>
-                    <button onclick="startDownload('Mac')" class="w-full bg-slate-800 text-white py-5 rounded-2xl cartoon-font text-2xl comic-border comic-shadow hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
-                        <span>🍎</span> Download for Mac (.dmg)
-                    </button>
-                    <button onclick="startDownload('Android')" class="w-full bg-blue-500 text-white py-5 rounded-2xl cartoon-font text-2xl comic-border comic-shadow hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
-                        <span>🤖</span> Get on Android (.apk)
-                    </button>
-                    <button onclick="startDownload('iOS')" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-5 rounded-2xl cartoon-font text-2xl comic-border comic-shadow hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
-                        <span>📱</span> Get on iPhone / iPad
-                    </button>
-                </div>
-
-                <!-- Download progress (hidden until button click) -->
-                <div id="download-progress" class="hidden">
-                    <p class="cartoon-font text-green-700 text-xl text-center mb-3" id="download-label">Preparing download...</p>
-                    <div class="h-6 bg-green-100 rounded-full comic-border overflow-hidden">
-                        <div id="progress-bar" class="h-full bg-green-500 rounded-full transition-all duration-300" style="width:0%"></div>
-                    </div>
-                    <p class="cartoon-font text-slate-500 text-center mt-2" id="progress-pct">0%</p>
-                </div>
-
-                <p class="text-center text-slate-400 font-bold text-sm mt-4">⚡ Fast download • 📦 Small file size • 🔒 Safe for kids</p>
-            </div>
+            <button class="primary-button" id="startButton" type="button">Start mission <span aria-hidden="true">→</span></button>
+            <p class="controls-line"><kbd>WASD</kbd> or <kbd>↑↓←→</kbd> move &nbsp;·&nbsp; <kbd>Space</kbd> super move &nbsp;·&nbsp; <kbd>P</kbd> pause</p>
+          </div>
         </div>
+
+        <div class="hud" id="hud" hidden aria-live="polite">
+          <div class="hud-row">
+            <div class="hud-cluster">
+              <div class="hud-pill">⭐ <strong id="scoreValue">0</strong></div>
+              <div class="hud-pill">💎 <strong id="gemValue">0/3</strong></div>
+              <div class="hud-pill"><span id="livesValue">❤️❤️❤️</span></div>
+            </div>
+            <div class="hud-pill district-pill"><div><span>Current mission</span><strong id="districtValue">Boing Peak · 0/8</strong></div></div>
+          </div>
+          <div class="ability-wrap" id="abilityWrap">
+            <div class="ability-label"><span id="abilityName">Mega Bounce</span><span id="abilityStatus">30%</span></div>
+            <div class="ability-track"><div class="ability-fill" id="abilityFill"></div></div>
+          </div>
+          <button class="pause-button" id="pauseButton" type="button" aria-label="Pause game">Ⅱ</button>
+        </div>
+
+        <div class="announcer" id="announcer" role="status"></div>
+
+        <div class="screen" id="pauseScreen" hidden>
+          <div class="modal-card">
+            <div class="big-icon">⏸️</div>
+            <h2>Snack break!</h2>
+            <p>The Grumble Globs promise not to move. Probably.</p>
+            <button class="primary-button" id="resumeButton" type="button">Keep squishing</button>
+          </div>
+        </div>
+
+        <div class="screen" id="endScreen" hidden>
+          <div class="modal-card">
+            <div class="big-icon" id="endIcon">🏆</div>
+            <h2 id="endTitle">Sillyville saved!</h2>
+            <p id="endMessage">The Giggle Gem is glowing again.</p>
+            <div class="stats">
+              <div class="stat"><strong id="finalScore">0</strong><span>Score</span></div>
+              <div class="stat"><strong id="finalGems">0/3</strong><span>Gems</span></div>
+              <div class="stat"><strong id="bestScore">0</strong><span>Best</span></div>
+            </div>
+            <div class="button-row">
+              <button class="primary-button" id="retryButton" type="button">Play again</button>
+              <button class="secondary-button" id="changeButton" type="button">Change Squish</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="touch-controls" id="touchControls" hidden aria-label="Touch controls">
+        <div class="dpad">
+          <button class="touch-button" data-key="up" type="button" aria-label="Move up">▲</button>
+          <button class="touch-button" data-key="left" type="button" aria-label="Move left">◀</button>
+          <button class="touch-button" data-key="down" type="button" aria-label="Move down">▼</button>
+          <button class="touch-button" data-key="right" type="button" aria-label="Move right">▶</button>
+        </div>
+        <button class="touch-button power-button" data-key="power" type="button" aria-label="Use super move"><span>✨</span>SUPER</button>
+      </div>
     </section>
 
-    <!-- FEATURES -->
-    <section class="py-24 px-6 bg-white">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-7xl cartoon-font text-green-600 text-center mb-16">What's In The Game?</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="pop-in bg-green-100 p-8 rounded-[3rem] comic-border comic-shadow text-center" style="animation-delay:0.1s">
-                    <div class="text-7xl mb-4">🦸</div>
-                    <h3 class="cartoon-font text-3xl text-green-700 mb-3">5 Playable Characters</h3>
-                    <p class="font-bold text-slate-600">Play as Boing, Munch, Zippy, Goofy or Bloop — each with unique powers!</p>
-                </div>
-                <div class="pop-in bg-yellow-100 p-8 rounded-[3rem] comic-border comic-shadow text-center" style="animation-delay:0.2s">
-                    <div class="text-7xl mb-4">🗺️</div>
-                    <h3 class="cartoon-font text-3xl text-yellow-700 mb-3">20+ Wild Levels</h3>
-                    <p class="font-bold text-slate-600">From Pancake Mountain to the Donut Galaxy — every level is ridiculous!</p>
-                </div>
-                <div class="pop-in bg-pink-100 p-8 rounded-[3rem] comic-border comic-shadow text-center" style="animation-delay:0.3s">
-                    <div class="text-7xl mb-4">👥</div>
-                    <h3 class="cartoon-font text-3xl text-pink-700 mb-3">2-Player Chaos Mode</h3>
-                    <p class="font-bold text-slate-600">Team up OR compete! Warning: friendships may be tested.</p>
-                </div>
-                <div class="pop-in bg-blue-100 p-8 rounded-[3rem] comic-border comic-shadow text-center" style="animation-delay:0.4s">
-                    <div class="text-7xl mb-4">🏆</div>
-                    <h3 class="cartoon-font text-3xl text-blue-700 mb-3">Silly Trophies</h3>
-                    <p class="font-bold text-slate-600">Collect 50+ ridiculous achievements like "Ate 100 donuts in 1 level!"</p>
-                </div>
-                <div class="pop-in bg-purple-100 p-8 rounded-[3rem] comic-border comic-shadow text-center" style="animation-delay:0.5s">
-                    <div class="text-7xl mb-4">🎨</div>
-                    <h3 class="cartoon-font text-3xl text-purple-700 mb-3">Costume Shop</h3>
-                    <p class="font-bold text-slate-600">Dress up your squad in hats, capes and outfits — all unlocked FREE!</p>
-                </div>
-                <div class="pop-in bg-orange-100 p-8 rounded-[3rem] comic-border comic-shadow text-center" style="animation-delay:0.6s">
-                    <div class="text-7xl mb-4">🎵</div>
-                    <h3 class="cartoon-font text-3xl text-orange-700 mb-3">Banging Soundtrack</h3>
-                    <p class="font-bold text-slate-600">Bloop composed 12 tracks. Goofy added sound effects to all of them.</p>
-                </div>
-            </div>
-        </div>
+    <section class="mission-board" aria-labelledby="squadPowers">
+      <h2 id="squadPowers">Squad powers</h2>
+      <p>The game uses the personalities and powers from each Squad Squish character story.</p>
+      <div class="ability-list" id="abilityList"></div>
     </section>
+  </main>
 
-    <!-- HOW TO PLAY -->
-    <section class="py-24 px-6 bg-green-100">
-        <div class="max-w-5xl mx-auto">
-            <h2 class="text-7xl cartoon-font text-green-700 text-center mb-16">How to Play!</h2>
-            <div class="space-y-6">
-                <div class="flex items-center gap-6 bg-white p-8 rounded-3xl comic-border comic-shadow slide-up" style="animation-delay:0.1s">
-                    <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center cartoon-font text-white text-4xl comic-border shrink-0">1</div>
-                    <div>
-                        <h3 class="cartoon-font text-3xl text-slate-800 mb-1">Pick Your Squish!</h3>
-                        <p class="font-bold text-slate-600 text-lg">Choose from 5 wild characters, each with their own special squish ability.</p>
-                    </div>
-                    <div class="text-6xl ml-auto shrink-0">🦸</div>
-                </div>
-                <div class="flex items-center gap-6 bg-white p-8 rounded-3xl comic-border comic-shadow slide-up" style="animation-delay:0.2s">
-                    <div class="w-20 h-20 bg-yellow-500 rounded-full flex items-center justify-center cartoon-font text-white text-4xl comic-border shrink-0">2</div>
-                    <div>
-                        <h3 class="cartoon-font text-3xl text-slate-800 mb-1">Run Through Sillyville!</h3>
-                        <p class="font-bold text-slate-600 text-lg">Use arrow keys or WASD — or tilt your phone. There are no wrong moves!</p>
-                    </div>
-                    <div class="text-6xl ml-auto shrink-0">🏃</div>
-                </div>
-                <div class="flex items-center gap-6 bg-white p-8 rounded-3xl comic-border comic-shadow slide-up" style="animation-delay:0.3s">
-                    <div class="w-20 h-20 bg-pink-500 rounded-full flex items-center justify-center cartoon-font text-white text-4xl comic-border shrink-0">3</div>
-                    <div>
-                        <h3 class="cartoon-font text-3xl text-slate-800 mb-1">Squish Everything!</h3>
-                        <p class="font-bold text-slate-600 text-lg">Press SPACE or tap to use your character's special SQUISH move. Maximum chaos!</p>
-                    </div>
-                    <div class="text-6xl ml-auto shrink-0">💥</div>
-                </div>
-                <div class="flex items-center gap-6 bg-white p-8 rounded-3xl comic-border comic-shadow slide-up" style="animation-delay:0.4s">
-                    <div class="w-20 h-20 bg-purple-500 rounded-full flex items-center justify-center cartoon-font text-white text-4xl comic-border shrink-0">4</div>
-                    <div>
-                        <h3 class="cartoon-font text-3xl text-slate-800 mb-1">Collect Snacks & Stars!</h3>
-                        <p class="font-bold text-slate-600 text-lg">Grab snacks to power up and stars to unlock new levels. Munch approves.</p>
-                    </div>
-                    <div class="text-6xl ml-auto shrink-0">⭐</div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <footer>
+    Built for maximum silliness · <a href="story.html">Read the Sillyville stories</a> · <a href="map.html">Explore the map</a>
+  </footer>
 
-    <!-- CHARACTER ABILITIES -->
-    <section class="py-24 px-6 bg-white">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-7xl cartoon-font text-slate-800 text-center mb-16">Character Abilities!</h2>
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
-                <a href="boing.html" class="bg-purple-100 p-6 rounded-3xl comic-border hover:-translate-y-2 hover:shadow-[18px_18px_0px_#1e293b] transition-all text-center group">
-                    <img src="boing-transparent.png" class="h-28 mx-auto group-hover:scale-110 transition-transform" alt="Boing">
-                    <h3 class="cartoon-font text-2xl text-purple-600 mt-3">Boing</h3>
-                    <div class="mt-2 bg-purple-200 px-3 py-2 rounded-xl cartoon-font text-purple-700 text-sm comic-border">🚀 MEGA BOUNCE</div>
-                </a>
-                <a href="munch.html" class="bg-green-100 p-6 rounded-3xl comic-border hover:-translate-y-2 hover:shadow-[18px_18px_0px_#1e293b] transition-all text-center group">
-                    <img src="munch-transparent.png" class="h-28 mx-auto group-hover:scale-110 transition-transform" alt="Munch">
-                    <h3 class="cartoon-font text-2xl text-green-600 mt-3">Munch</h3>
-                    <div class="mt-2 bg-green-200 px-3 py-2 rounded-xl cartoon-font text-green-700 text-sm comic-border">💪 SUPER CHOMP</div>
-                </a>
-                <a href="zippy.html" class="bg-yellow-100 p-6 rounded-3xl comic-border hover:-translate-y-2 hover:shadow-[18px_18px_0px_#1e293b] transition-all text-center group">
-                    <img src="zippy-transparent.png" class="h-28 mx-auto group-hover:scale-110 transition-transform" alt="Zippy">
-                    <h3 class="cartoon-font text-2xl text-yellow-600 mt-3">Zippy</h3>
-                    <div class="mt-2 bg-yellow-200 px-3 py-2 rounded-xl cartoon-font text-yellow-700 text-sm comic-border">⚡ TURBO DASH</div>
-                </a>
-                <a href="goofy.html" class="bg-pink-100 p-6 rounded-3xl comic-border hover:-translate-y-2 hover:shadow-[18px_18px_0px_#1e293b] transition-all text-center group">
-                    <img src="goofy-transparent.png" class="h-28 mx-auto group-hover:scale-110 transition-transform" alt="Goofy">
-                    <h3 class="cartoon-font text-2xl text-pink-600 mt-3">Goofy</h3>
-                    <div class="mt-2 bg-pink-200 px-3 py-2 rounded-xl cartoon-font text-pink-700 text-sm comic-border">🌀 CHAOS SPIN</div>
-                </a>
-                <a href="bloop.html" class="bg-blue-100 p-6 rounded-3xl comic-border hover:-translate-y-2 hover:shadow-[18px_18px_0px_#1e293b] transition-all text-center group">
-                    <img src="bloop-transparent.png" class="h-28 mx-auto group-hover:scale-110 transition-transform" alt="Bloop">
-                    <h3 class="cartoon-font text-2xl text-blue-600 mt-3">Bloop</h3>
-                    <div class="mt-2 bg-blue-200 px-3 py-2 rounded-xl cartoon-font text-blue-700 text-sm comic-border">🧠 BRAIN BLAST</div>
-                </a>
-            </div>
-        </div>
-    </section>
+  <script>
+    (function () {
+      "use strict";
 
-    <!-- FINAL DOWNLOAD CTA -->
-    <section class="py-24 px-6 bg-green-500 text-center">
-        <div class="max-w-3xl mx-auto">
-            <div class="text-9xl animate-bounce-high inline-block mb-6">🎮</div>
-            <h2 class="cartoon-font text-6xl text-white mb-6">Ready to Play?!</h2>
-            <p class="cartoon-font text-green-100 text-3xl mb-10">100% FREE • No ads • No in-app purchases • Just pure SQUISH!</p>
-            <button onclick="startDownload('PC')" class="download-btn bg-white text-green-700 px-16 py-8 rounded-3xl cartoon-font text-4xl comic-border hover:-translate-y-2 transition-transform inline-flex items-center gap-4">
-                <span>⬇️</span> DOWNLOAD FREE!
-            </button>
-        </div>
-    </section>
-
-    <footer class="bg-slate-900 py-10 text-center">
-        <p class="cartoon-font text-slate-500 text-xl">Squad Squish! &copy; 2024 — Stay Silly!</p>
-        <div class="flex justify-center gap-4 mt-4">
-            <a href="boing.html" class="bg-purple-600 text-white px-4 py-1 rounded-xl cartoon-font text-sm">Boing</a>
-            <a href="munch.html" class="bg-green-600 text-white px-4 py-1 rounded-xl cartoon-font text-sm">Munch</a>
-            <a href="zippy.html" class="bg-yellow-500 text-white px-4 py-1 rounded-xl cartoon-font text-sm">Zippy</a>
-            <a href="goofy.html" class="bg-pink-600 text-white px-4 py-1 rounded-xl cartoon-font text-sm">Goofy</a>
-            <a href="bloop.html" class="bg-blue-600 text-white px-4 py-1 rounded-xl cartoon-font text-sm">Bloop</a>
-        </div>
-    </footer>
-
-    <script>
-        function startDownload(platform) {
-            const box = document.getElementById('download-progress');
-            const label = document.getElementById('download-label');
-            const bar = document.getElementById('progress-bar');
-            const pct = document.getElementById('progress-pct');
-            box.classList.remove('hidden');
-            label.innerText = `Preparing ${platform} download...`;
-            let progress = 0;
-            bar.style.width = '0%';
-            pct.innerText = '0%';
-            const interval = setInterval(() => {
-                progress += Math.random() * 15 + 5;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    label.innerText = '✅ Ready! Your download has started!';
-                }
-                bar.style.width = Math.min(progress, 100) + '%';
-                pct.innerText = Math.round(Math.min(progress, 100)) + '%';
-            }, 200);
+      var CHARACTERS = {
+        boing: {
+          name: "Boing", title: "The Bouncy Leader", color: "#8754dc", tint: "#eadcff",
+          image: "assets/boing-transparent.png", icon: "💥", ability: "Mega Bounce", speed: 250,
+          description: "A heroic bounce creates a shockwave and knocks nearby Grumble Globs away.",
+          powerText: "SUPER BOUNCE"
+        },
+        munch: {
+          name: "Munch", title: "The Foodie Tank", color: "#3eae65", tint: "#d9f8df",
+          image: "assets/munch-transparent.png", icon: "🍪", ability: "Super Chomp", speed: 220,
+          description: "Munch uses super strength to chomp every nearby hazard into bonus points.",
+          powerText: "SUPER STRENGTH"
+        },
+        zippy: {
+          name: "Zippy", title: "The Hyper One", color: "#e3a915", tint: "#fff1ad",
+          image: "assets/zippy-transparent.png", icon: "⚡", ability: "Turbo Dash", speed: 310,
+          description: "Zippy rockets forward at super speed and becomes untouchable for two seconds.",
+          powerText: "SUPER SPEED"
+        },
+        goofy: {
+          name: "Goofy", title: "The Chaos Maker", color: "#e54f91", tint: "#ffd9e9",
+          image: "assets/goofy-transparent.png", icon: "🌀", ability: "Reality Remix", speed: 245,
+          description: "Goofy turns thoughts into reality, changing every Grumble Glob into a snack.",
+          powerText: "THOUGHTS TO REALITY"
+        },
+        bloop: {
+          name: "Bloop", title: "The Calm One", color: "#3786bc", tint: "#d9f3ff",
+          image: "assets/bloop-transparent.png", icon: "〰️", ability: "Calm Wave", speed: 235,
+          description: "Bloop sends out a calm sound wave that slows the whole world and pulls stars closer.",
+          powerText: "SOUND WAVES"
         }
-    </script>
+      };
+
+      var DISTRICTS = [
+        { name: "Boing Peak", target: 8, sky: "#92ddff", ground: "#a9e586", path: "#f9d490", hazardSpeed: 92, spawn: 1.55, deco: "☁️" },
+        { name: "Snacky Street", target: 12, sky: "#ffc3d9", ground: "#ffdf83", path: "#f9a96e", hazardSpeed: 118, spawn: 1.25, deco: "🍭" },
+        { name: "Chaos Castle", target: 16, sky: "#ae91e8", ground: "#79d2b3", path: "#8465bc", hazardSpeed: 145, spawn: 1.0, deco: "🏰" }
+      ];
+
+      var canvas = document.getElementById("gameCanvas");
+      var ctx = canvas.getContext("2d");
+      var W = canvas.width;
+      var H = canvas.height;
+      var startScreen = document.getElementById("startScreen");
+      var pauseScreen = document.getElementById("pauseScreen");
+      var endScreen = document.getElementById("endScreen");
+      var hud = document.getElementById("hud");
+      var touchControls = document.getElementById("touchControls");
+      var characterGrid = document.getElementById("characterGrid");
+      var abilityList = document.getElementById("abilityList");
+      var announcer = document.getElementById("announcer");
+      var soundToggle = document.getElementById("soundToggle");
+      var abilityWrap = document.getElementById("abilityWrap");
+      var images = {};
+      var selected = "boing";
+      var mode = "menu";
+      var muted = false;
+      var audioContext = null;
+      var lastTime = 0;
+      var announceTimer = 0;
+      var keys = { up: false, down: false, left: false, right: false };
+      var player = null;
+      var items = [];
+      var hazards = [];
+      var particles = [];
+      var floaters = [];
+      var score = 0;
+      var lives = 3;
+      var gems = 0;
+      var level = 0;
+      var levelStars = 0;
+      var combo = 1;
+      var comboTimer = 0;
+      var ability = 30;
+      var hazardClock = 0;
+      var itemClock = 0;
+      var gemPresent = false;
+      var invulnerable = 0;
+      var specialTimer = 0;
+      var transitionTimer = 0;
+      var screenShake = 0;
+      var gameTime = 0;
+
+      Object.keys(CHARACTERS).forEach(function (key) {
+        var character = CHARACTERS[key];
+        var image = new Image();
+        image.src = character.image;
+        images[key] = image;
+
+        var button = document.createElement("button");
+        button.className = "character-card";
+        button.type = "button";
+        button.dataset.character = key;
+        button.setAttribute("aria-pressed", key === selected ? "true" : "false");
+        button.style.setProperty("--card-color", character.tint);
+        button.style.setProperty("--accent", character.color);
+        button.innerHTML = '<img src="' + character.image + '" alt=""><strong>' + character.name + "</strong>";
+        button.addEventListener("click", function () { selectCharacter(key); });
+        characterGrid.appendChild(button);
+
+        var item = document.createElement("article");
+        item.className = "ability-item";
+        item.style.setProperty("--tint", character.tint);
+        item.style.setProperty("--accent", character.color);
+        item.innerHTML = '<img src="' + character.image + '" alt=""><h3>' + character.name + " · " + character.powerText + "</h3><p>" + character.description + "</p>";
+        abilityList.appendChild(item);
+      });
+
+      function selectCharacter(key) {
+        selected = key;
+        var character = CHARACTERS[key];
+        document.querySelectorAll(".character-card").forEach(function (button) {
+          button.setAttribute("aria-pressed", button.dataset.character === key ? "true" : "false");
+        });
+        document.getElementById("selectedTitle").textContent = character.name + " · " + character.title;
+        document.getElementById("selectedDescription").textContent = character.description;
+        document.getElementById("selectedAbility").textContent = character.icon + " " + character.ability;
+        tone(440, .04, "sine", .025);
+      }
+
+      function resetGame() {
+        configureCanvas();
+        score = 0;
+        lives = 3;
+        gems = 0;
+        level = 0;
+        levelStars = 0;
+        combo = 1;
+        comboTimer = 0;
+        ability = 30;
+        hazardClock = 0;
+        itemClock = 0;
+        gemPresent = false;
+        invulnerable = 0;
+        specialTimer = 0;
+        transitionTimer = 0;
+        screenShake = 0;
+        gameTime = 0;
+        items = [];
+        hazards = [];
+        particles = [];
+        floaters = [];
+        player = { x: W / 2, y: H * .72, radius: 35, facingX: 0, facingY: -1 };
+        for (var i = 0; i < 5; i += 1) spawnItem(i < 4 ? "star" : "snack");
+        for (var h = 0; h < 2; h += 1) spawnHazard();
+        updateHud();
+      }
+
+      function startGame() {
+        unlockAudio();
+        resetGame();
+        mode = "playing";
+        startScreen.hidden = true;
+        pauseScreen.hidden = true;
+        endScreen.hidden = true;
+        hud.hidden = false;
+        touchControls.hidden = false;
+        canvas.focus({ preventScroll: true });
+        announce("Boing Peak: collect 8 sparkle stars!", 2300);
+        tone(523, .08, "sine", .04);
+        setTimeout(function () { tone(659, .08, "sine", .04); }, 90);
+        lastTime = performance.now();
+      }
+
+      function chooseAgain() {
+        mode = "menu";
+        endScreen.hidden = true;
+        pauseScreen.hidden = true;
+        startScreen.hidden = false;
+        hud.hidden = true;
+        touchControls.hidden = true;
+        drawBackdrop(0);
+      }
+
+      function togglePause(forceResume) {
+        if (mode !== "playing" && mode !== "paused") return;
+        if (mode === "paused" || forceResume) {
+          mode = "playing";
+          pauseScreen.hidden = true;
+          lastTime = performance.now();
+        } else {
+          mode = "paused";
+          pauseScreen.hidden = false;
+          clearKeys();
+        }
+      }
+
+      function endGame(won) {
+        mode = won ? "won" : "lost";
+        clearKeys();
+        hud.hidden = true;
+        touchControls.hidden = true;
+        endScreen.hidden = false;
+        document.getElementById("endIcon").textContent = won ? "🏆" : "🫧";
+        document.getElementById("endTitle").textContent = won ? "Sillyville saved!" : "Squished out!";
+        document.getElementById("endMessage").textContent = won ? "The Giggle Gem is glowing again. The whole squad is doing a victory wobble!" : "The Grumble Globs got too grumbly. Your squad is ready for another try!";
+        document.getElementById("finalScore").textContent = score.toLocaleString();
+        document.getElementById("finalGems").textContent = gems + "/3";
+        var best = 0;
+        try {
+          best = Math.max(Number(localStorage.getItem("squadSquishBest") || 0), score);
+          localStorage.setItem("squadSquishBest", String(best));
+        } catch (error) { best = score; }
+        document.getElementById("bestScore").textContent = best.toLocaleString();
+        if (won) {
+          tone(523, .1, "triangle", .05);
+          setTimeout(function () { tone(659, .1, "triangle", .05); }, 110);
+          setTimeout(function () { tone(784, .2, "triangle", .05); }, 220);
+        } else {
+          tone(180, .25, "sawtooth", .035);
+        }
+      }
+
+      function randomPosition(radius) {
+        var x;
+        var y;
+        var tries = 0;
+        do {
+          x = radius + 25 + Math.random() * (W - radius * 2 - 50);
+          y = radius + 90 + Math.random() * (H - radius * 2 - 145);
+          tries += 1;
+        } while (player && distance(x, y, player.x, player.y) < 150 && tries < 12);
+        return { x: x, y: y };
+      }
+
+      function spawnItem(type, x, y) {
+        var radius = type === "gem" ? 28 : type === "snack" ? 20 : 16;
+        var position = x === undefined ? randomPosition(radius) : { x: x, y: y };
+        items.push({ type: type, x: position.x, y: position.y, radius: radius, phase: Math.random() * Math.PI * 2, born: gameTime });
+      }
+
+      function spawnHazard() {
+        if (hazards.length >= 4 + level * 2) return;
+        var radius = 25 + Math.random() * 8;
+        var position = randomPosition(radius);
+        var angle = Math.random() * Math.PI * 2;
+        var speed = DISTRICTS[level].hazardSpeed * (.82 + Math.random() * .38);
+        hazards.push({
+          x: position.x, y: position.y, radius: radius,
+          vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+          spin: Math.random() * Math.PI * 2, stunned: 0
+        });
+      }
+
+      function update(dt) {
+        if (mode !== "playing") return;
+        gameTime += dt;
+        if (transitionTimer > 0) {
+          transitionTimer -= dt;
+          updateParticles(dt);
+          if (transitionTimer <= 0) loadNextDistrict();
+          return;
+        }
+
+        if (invulnerable > 0) invulnerable -= dt;
+        if (specialTimer > 0) specialTimer -= dt;
+        if (screenShake > 0) screenShake -= dt;
+        if (comboTimer > 0) {
+          comboTimer -= dt;
+          if (comboTimer <= 0) combo = 1;
+        }
+
+        var dx = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
+        var dy = (keys.down ? 1 : 0) - (keys.up ? 1 : 0);
+        if (dx || dy) {
+          var length = Math.hypot(dx, dy);
+          dx /= length;
+          dy /= length;
+          player.facingX = dx;
+          player.facingY = dy;
+          var speed = CHARACTERS[selected].speed;
+          if (selected === "zippy" && specialTimer > 0) speed *= 2.15;
+          player.x += dx * speed * dt;
+          player.y += dy * speed * dt;
+          if (selected === "zippy" && specialTimer > 0 && Math.random() < .55) {
+            addParticle(player.x, player.y + 22, CHARACTERS.zippy.color, 1);
+          }
+        }
+        player.x = clamp(player.x, player.radius + 8, W - player.radius - 8);
+        player.y = clamp(player.y, player.radius + 70, H - player.radius - 8);
+
+        itemClock -= dt;
+        if (itemClock <= 0 && items.filter(function (item) { return item.type !== "gem"; }).length < 7) {
+          spawnItem(Math.random() < .18 ? "snack" : "star");
+          itemClock = .7 + Math.random() * .7;
+        }
+
+        hazardClock -= dt;
+        if (hazardClock <= 0) {
+          spawnHazard();
+          hazardClock = DISTRICTS[level].spawn;
+        }
+
+        var timeScale = selected === "bloop" && specialTimer > 0 ? .18 : 1;
+        hazards.forEach(function (hazard) {
+          if (hazard.stunned > 0) {
+            hazard.stunned -= dt;
+            return;
+          }
+          var hdt = dt * timeScale;
+          hazard.x += hazard.vx * hdt;
+          hazard.y += hazard.vy * hdt;
+          hazard.spin += hdt * 2;
+          if (hazard.x < hazard.radius || hazard.x > W - hazard.radius) {
+            hazard.vx *= -1;
+            hazard.x = clamp(hazard.x, hazard.radius, W - hazard.radius);
+          }
+          if (hazard.y < hazard.radius + 65 || hazard.y > H - hazard.radius) {
+            hazard.vy *= -1;
+            hazard.y = clamp(hazard.y, hazard.radius + 65, H - hazard.radius);
+          }
+          if (selected === "bloop" && specialTimer > 0) {
+            var pull = direction(hazard.x, hazard.y, player.x, player.y);
+            hazard.vx -= pull.x * 3;
+            hazard.vy -= pull.y * 3;
+          }
+        });
+
+        if (selected === "bloop" && specialTimer > 0) {
+          items.forEach(function (item) {
+            if (item.type === "gem") return;
+            var toward = direction(item.x, item.y, player.x, player.y);
+            item.x += toward.x * 165 * dt;
+            item.y += toward.y * 165 * dt;
+          });
+        }
+
+        collectItems();
+        collideHazards();
+        updateParticles(dt);
+        updateHud();
+      }
+
+      function collectItems() {
+        for (var i = items.length - 1; i >= 0; i -= 1) {
+          var item = items[i];
+          if (distance(player.x, player.y, item.x, item.y) > player.radius + item.radius) continue;
+          items.splice(i, 1);
+          if (item.type === "star") {
+            levelStars += 1;
+            combo = comboTimer > 0 ? Math.min(combo + 1, 5) : 1;
+            comboTimer = 2.2;
+            var points = 100 * combo;
+            score += points;
+            ability = Math.min(100, ability + 13);
+            addFloater(item.x, item.y, "+" + points + (combo > 1 ? "  x" + combo : ""), "#fff7a8");
+            burst(item.x, item.y, "#ffd83d", 9);
+            tone(560 + combo * 55, .045, "sine", .025);
+            if (levelStars >= DISTRICTS[level].target && !gemPresent) {
+              gemPresent = true;
+              spawnItem("gem", W / 2, 150);
+              announce("Giggle Gem piece revealed! Grab it! 💎", 2600);
+              tone(880, .15, "triangle", .04);
+            }
+          } else if (item.type === "snack") {
+            score += 75;
+            ability = Math.min(100, ability + 22);
+            addFloater(item.x, item.y, "+75 YUM!", "#ffffff");
+            burst(item.x, item.y, "#ff7eaa", 8);
+            tone(420, .05, "square", .02);
+          } else if (item.type === "gem") {
+            gems += 1;
+            score += 1000 + lives * 200;
+            burst(item.x, item.y, "#80f5ff", 28);
+            screenShake = .55;
+            transitionTimer = 1.8;
+            gemPresent = false;
+            invulnerable = 3;
+            announce(gems === 3 ? "The Giggle Gem is complete! ✨" : "Gem piece rescued! Next stop...", 1700);
+            tone(700, .08, "triangle", .05);
+            setTimeout(function () { tone(940, .14, "triangle", .05); }, 100);
+          }
+        }
+      }
+
+      function collideHazards() {
+        for (var i = hazards.length - 1; i >= 0; i -= 1) {
+          var hazard = hazards[i];
+          if (distance(player.x, player.y, hazard.x, hazard.y) > player.radius + hazard.radius - 7) continue;
+
+          if (selected === "zippy" && specialTimer > 0) {
+            hazards.splice(i, 1);
+            score += 125;
+            burst(hazard.x, hazard.y, "#ffe34d", 12);
+            continue;
+          }
+          if (selected === "boing" && specialTimer > 0) {
+            var away = direction(player.x, player.y, hazard.x, hazard.y);
+            hazard.vx = away.x * 280;
+            hazard.vy = away.y * 280;
+            hazard.stunned = .4;
+            continue;
+          }
+          if (invulnerable > 0) continue;
+
+          lives -= 1;
+          invulnerable = 1.7;
+          combo = 1;
+          comboTimer = 0;
+          ability = Math.min(100, ability + 12);
+          screenShake = .45;
+          var push = direction(hazard.x, hazard.y, player.x, player.y);
+          player.x = clamp(player.x + push.x * 65, player.radius, W - player.radius);
+          player.y = clamp(player.y + push.y * 65, player.radius + 70, H - player.radius);
+          burst(player.x, player.y, "#ff5576", 16);
+          announce(lives > 0 ? "Oof! " + lives + " hearts left" : "Squished out!", 1500);
+          tone(125, .14, "sawtooth", .035);
+          if (lives <= 0) {
+            setTimeout(function () { endGame(false); }, 450);
+            return;
+          }
+        }
+      }
+
+      function usePower() {
+        if (mode !== "playing" || transitionTimer > 0) return;
+        unlockAudio();
+        if (ability < 100) {
+          announce("Collect more stars to charge your super!", 1300);
+          tone(160, .05, "square", .015);
+          return;
+        }
+        ability = 0;
+        var character = CHARACTERS[selected];
+        announce(character.icon + " " + character.ability.toUpperCase() + "!", 1400);
+        screenShake = .25;
+        burst(player.x, player.y, character.color, 24);
+        tone(260, .08, "sawtooth", .035);
+        setTimeout(function () { tone(520, .12, "triangle", .035); }, 70);
+
+        if (selected === "boing") {
+          specialTimer = 1.25;
+          invulnerable = Math.max(invulnerable, 1.25);
+          hazards.forEach(function (hazard) {
+            if (distance(player.x, player.y, hazard.x, hazard.y) < 260) {
+              var away = direction(player.x, player.y, hazard.x, hazard.y);
+              hazard.vx = away.x * 380;
+              hazard.vy = away.y * 380;
+              hazard.stunned = .45;
+            }
+          });
+        } else if (selected === "munch") {
+          for (var i = hazards.length - 1; i >= 0; i -= 1) {
+            if (distance(player.x, player.y, hazards[i].x, hazards[i].y) < 230) {
+              addFloater(hazards[i].x, hazards[i].y, "+150 CHOMP", "#ffffff");
+              score += 150;
+              burst(hazards[i].x, hazards[i].y, "#6de388", 9);
+              hazards.splice(i, 1);
+            }
+          }
+        } else if (selected === "zippy") {
+          specialTimer = 2.15;
+          invulnerable = Math.max(invulnerable, 2.15);
+        } else if (selected === "goofy") {
+          hazards.forEach(function (hazard) {
+            spawnItem("snack", hazard.x, hazard.y);
+            burst(hazard.x, hazard.y, "#ff70b1", 8);
+          });
+          score += hazards.length * 75;
+          hazards = [];
+        } else if (selected === "bloop") {
+          specialTimer = 3.2;
+          hazards.forEach(function (hazard) { hazard.stunned = .25; });
+        }
+        updateHud();
+      }
+
+      function loadNextDistrict() {
+        if (gems >= 3) {
+          endGame(true);
+          return;
+        }
+        level += 1;
+        levelStars = 0;
+        items = [];
+        hazards = [];
+        gemPresent = false;
+        ability = Math.min(100, ability + 25);
+        player.x = W / 2;
+        player.y = H * .72;
+        for (var i = 0; i < 5; i += 1) spawnItem(i === 4 ? "snack" : "star");
+        for (var h = 0; h < 2 + level; h += 1) spawnHazard();
+        announce(DISTRICTS[level].name + ": collect " + DISTRICTS[level].target + " sparkle stars!", 2600);
+        updateHud();
+      }
+
+      function updateParticles(dt) {
+        for (var i = particles.length - 1; i >= 0; i -= 1) {
+          var particle = particles[i];
+          particle.life -= dt;
+          particle.x += particle.vx * dt;
+          particle.y += particle.vy * dt;
+          particle.vy += 80 * dt;
+          if (particle.life <= 0) particles.splice(i, 1);
+        }
+        for (var f = floaters.length - 1; f >= 0; f -= 1) {
+          floaters[f].life -= dt;
+          floaters[f].y -= 42 * dt;
+          if (floaters[f].life <= 0) floaters.splice(f, 1);
+        }
+      }
+
+      function addParticle(x, y, color, size) {
+        particles.push({ x: x, y: y, vx: (Math.random() - .5) * 80, vy: -20 - Math.random() * 60, life: .4 + Math.random() * .4, maxLife: .8, size: (size || 1) * (3 + Math.random() * 5), color: color });
+      }
+
+      function burst(x, y, color, count) {
+        for (var i = 0; i < count; i += 1) {
+          var angle = Math.random() * Math.PI * 2;
+          var speed = 70 + Math.random() * 180;
+          particles.push({ x: x, y: y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: .55 + Math.random() * .45, maxLife: 1, size: 4 + Math.random() * 7, color: color });
+        }
+      }
+
+      function addFloater(x, y, text, color) {
+        floaters.push({ x: x, y: y, text: text, color: color, life: 1, maxLife: 1 });
+      }
+
+      function draw() {
+        var shakeX = screenShake > 0 ? (Math.random() - .5) * 12 : 0;
+        var shakeY = screenShake > 0 ? (Math.random() - .5) * 12 : 0;
+        ctx.save();
+        ctx.translate(shakeX, shakeY);
+        drawBackdrop(level);
+        items.forEach(drawItem);
+        hazards.forEach(drawHazard);
+        particles.forEach(drawParticle);
+        if (player) drawPlayer();
+        floaters.forEach(drawFloater);
+        if (transitionTimer > 0) drawTransition();
+        ctx.restore();
+      }
+
+      function drawBackdrop(index) {
+        var district = DISTRICTS[Math.min(index, DISTRICTS.length - 1)];
+        var gradient = ctx.createLinearGradient(0, 0, 0, H);
+        gradient.addColorStop(0, district.sky);
+        gradient.addColorStop(.52, district.sky);
+        gradient.addColorStop(.521, district.ground);
+        gradient.addColorStop(1, district.ground);
+        ctx.fillStyle = gradient;
+        ctx.fillRect(-20, -20, W + 40, H + 40);
+
+        ctx.fillStyle = "rgba(255,255,255,.62)";
+        for (var c = 0; c < 5; c += 1) {
+          var cx = ((c * 233 + 80) % 1050) - 20;
+          var cy = 92 + (c % 2) * 76;
+          drawCloud(cx, cy, .8 + (c % 3) * .15);
+        }
+
+        ctx.fillStyle = district.path;
+        ctx.beginPath();
+        ctx.moveTo(W * .37, H);
+        ctx.bezierCurveTo(W * .44, H * .72, W * .38, H * .64, W * .47, H * .52);
+        ctx.lineTo(W * .59, H * .52);
+        ctx.bezierCurveTo(W * .52, H * .7, W * .66, H * .8, W * .7, H);
+        ctx.closePath();
+        ctx.fill();
+
+        for (var i = 0; i < 14; i += 1) {
+          var x = (i * 83 + 31) % W;
+          var y = 335 + ((i * 71) % 245);
+          ctx.fillStyle = i % 2 ? "rgba(255,255,255,.28)" : "rgba(45,114,78,.14)";
+          ctx.beginPath();
+          ctx.arc(x, y, 9 + (i % 3) * 5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.font = "58px system-ui";
+        ctx.textAlign = "center";
+        ctx.globalAlpha = .55;
+        ctx.fillText(district.deco, 105, 300);
+        ctx.fillText(district.deco, 890, 280);
+        ctx.globalAlpha = 1;
+      }
+
+      function drawCloud(x, y, scale) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.scale(scale, scale);
+        ctx.beginPath();
+        ctx.arc(0, 10, 26, 0, Math.PI * 2);
+        ctx.arc(30, 0, 36, 0, Math.PI * 2);
+        ctx.arc(66, 12, 27, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function drawItem(item) {
+        var bob = Math.sin(gameTime * 4 + item.phase) * 5;
+        ctx.save();
+        ctx.translate(item.x, item.y + bob);
+        if (item.type === "star") {
+          ctx.shadowColor = "rgba(255,220,40,.75)";
+          ctx.shadowBlur = 18;
+          drawStar(0, 0, 5, 17, 8, "#ffe44f", "#6f4b18");
+        } else if (item.type === "snack") {
+          ctx.rotate(Math.sin(gameTime * 2 + item.phase) * .12);
+          ctx.fillStyle = "#d89145";
+          ctx.strokeStyle = varInk();
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(0, 0, 18, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#63402d";
+          [[-7,-5],[7,-8],[-1,7],[9,5]].forEach(function (chip) { ctx.beginPath(); ctx.arc(chip[0], chip[1], 2.7, 0, Math.PI * 2); ctx.fill(); });
+        } else {
+          ctx.rotate(gameTime * .8);
+          ctx.shadowColor = "#78f1ff";
+          ctx.shadowBlur = 28;
+          ctx.fillStyle = "#86f4ff";
+          ctx.strokeStyle = "#312763";
+          ctx.lineWidth = 4;
+          ctx.beginPath();
+          ctx.moveTo(0, -31);
+          ctx.lineTo(24, -9);
+          ctx.lineTo(17, 24);
+          ctx.lineTo(0, 34);
+          ctx.lineTo(-17, 24);
+          ctx.lineTo(-24, -9);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "rgba(255,255,255,.72)";
+          ctx.beginPath();
+          ctx.moveTo(-6, -22); ctx.lineTo(8, -9); ctx.lineTo(-1, 9); ctx.closePath(); ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      function drawHazard(hazard) {
+        ctx.save();
+        ctx.translate(hazard.x, hazard.y);
+        ctx.rotate(Math.sin(hazard.spin) * .1);
+        var slowed = selected === "bloop" && specialTimer > 0;
+        ctx.globalAlpha = hazard.stunned > 0 ? .58 : 1;
+        ctx.fillStyle = slowed ? "#82b8d9" : "#725070";
+        ctx.strokeStyle = varInk();
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        for (var a = 0; a <= 12; a += 1) {
+          var angle = a / 12 * Math.PI * 2;
+          var radius = hazard.radius * (a % 2 ? .88 : 1.05);
+          var px = Math.cos(angle) * radius;
+          var py = Math.sin(angle) * radius;
+          if (a === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = "white";
+        ctx.beginPath(); ctx.arc(-9, -5, 7, 0, Math.PI * 2); ctx.arc(9, -5, 7, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = varInk();
+        ctx.beginPath(); ctx.arc(-8, -4, 3, 0, Math.PI * 2); ctx.arc(8, -4, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(-10, 13); ctx.quadraticCurveTo(0, 5, 10, 13); ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawPlayer() {
+        var character = CHARACTERS[selected];
+        var pulse = 1 + Math.sin(gameTime * 7) * .025;
+        var flashing = invulnerable > 0 && Math.floor(invulnerable * 10) % 2 === 0;
+        ctx.save();
+        ctx.translate(player.x, player.y);
+        if (flashing) ctx.globalAlpha = .45;
+
+        ctx.fillStyle = "rgba(37,31,54,.2)";
+        ctx.beginPath();
+        ctx.ellipse(0, 29, 34, 12, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (specialTimer > 0) {
+          ctx.strokeStyle = character.color;
+          ctx.lineWidth = 7;
+          ctx.globalAlpha = .68;
+          ctx.beginPath();
+          var ring = selected === "boing" ? 55 + (1.25 - specialTimer) * 145 : 48 + Math.sin(gameTime * 12) * 5;
+          ctx.arc(0, 0, ring, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.globalAlpha = flashing ? .45 : 1;
+        }
+
+        ctx.scale(pulse, pulse);
+        var image = images[selected];
+        if (image && image.complete && image.naturalWidth) {
+          ctx.drawImage(image, -49, -54, 98, 98);
+        } else {
+          ctx.fillStyle = character.color;
+          ctx.beginPath(); ctx.arc(0, 0, 36, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      function drawParticle(particle) {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, particle.life / particle.maxLife);
+        ctx.fillStyle = particle.color;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function drawFloater(floater) {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, floater.life / floater.maxLife);
+        ctx.fillStyle = floater.color;
+        ctx.strokeStyle = varInk();
+        ctx.lineWidth = 5;
+        ctx.font = "700 22px Fredoka, sans-serif";
+        ctx.textAlign = "center";
+        ctx.strokeText(floater.text, floater.x, floater.y);
+        ctx.fillText(floater.text, floater.x, floater.y);
+        ctx.restore();
+      }
+
+      function drawTransition() {
+        var alpha = Math.sin(Math.min(1, transitionTimer) * Math.PI) * .22;
+        ctx.fillStyle = "rgba(255,255,255," + alpha + ")";
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      function drawStar(x, y, points, outer, inner, fill, stroke) {
+        ctx.beginPath();
+        for (var i = 0; i < points * 2; i += 1) {
+          var radius = i % 2 === 0 ? outer : inner;
+          var angle = -Math.PI / 2 + i * Math.PI / points;
+          var px = x + Math.cos(angle) * radius;
+          var py = y + Math.sin(angle) * radius;
+          if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fillStyle = fill;
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = 3;
+        ctx.fill();
+        ctx.stroke();
+      }
+
+      function updateHud() {
+        document.getElementById("scoreValue").textContent = score.toLocaleString();
+        document.getElementById("gemValue").textContent = gems + "/3";
+        document.getElementById("livesValue").textContent = lives > 0 ? "❤️".repeat(lives) : "💔";
+        var district = DISTRICTS[Math.min(level, DISTRICTS.length - 1)];
+        document.getElementById("districtValue").textContent = district.name + " · " + Math.min(levelStars, district.target) + "/" + district.target;
+        document.getElementById("abilityName").textContent = CHARACTERS[selected].icon + " " + CHARACTERS[selected].ability;
+        document.getElementById("abilityStatus").textContent = ability >= 100 ? "READY — SPACE" : Math.round(ability) + "%";
+        document.getElementById("abilityFill").style.width = Math.round(ability) + "%";
+        abilityWrap.classList.toggle("ready", ability >= 100);
+      }
+
+      function announce(message, duration) {
+        clearTimeout(announceTimer);
+        announcer.textContent = message;
+        announcer.classList.add("show");
+        announceTimer = setTimeout(function () { announcer.classList.remove("show"); }, duration || 1600);
+      }
+
+      function loop(timestamp) {
+        var dt = Math.min((timestamp - lastTime) / 1000 || 0, .035);
+        lastTime = timestamp;
+        update(dt);
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      function distance(x1, y1, x2, y2) { return Math.hypot(x2 - x1, y2 - y1); }
+      function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+      function direction(x1, y1, x2, y2) {
+        var dx = x2 - x1;
+        var dy = y2 - y1;
+        var length = Math.hypot(dx, dy) || 1;
+        return { x: dx / length, y: dy / length };
+      }
+      function varInk() { return "#20213b"; }
+      function clearKeys() { keys.up = keys.down = keys.left = keys.right = false; }
+
+      function configureCanvas() {
+        var portrait = window.matchMedia("(max-width: 760px)").matches;
+        var nextW = portrait ? 600 : 1000;
+        var nextH = portrait ? 850 : 600;
+        if (W === nextW && H === nextH) return;
+        var scaleX = nextW / W;
+        var scaleY = nextH / H;
+        W = nextW;
+        H = nextH;
+        canvas.width = W;
+        canvas.height = H;
+        if (player) {
+          player.x *= scaleX;
+          player.y *= scaleY;
+        }
+        items.forEach(function (item) { item.x *= scaleX; item.y *= scaleY; });
+        hazards.forEach(function (hazard) { hazard.x *= scaleX; hazard.y *= scaleY; });
+      }
+
+      function unlockAudio() {
+        if (!audioContext) {
+          var AudioCtor = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtor) audioContext = new AudioCtor();
+        }
+        if (audioContext && audioContext.state === "suspended") audioContext.resume();
+      }
+
+      function tone(frequency, duration, wave, volume) {
+        if (muted) return;
+        unlockAudio();
+        if (!audioContext) return;
+        var oscillator = audioContext.createOscillator();
+        var gain = audioContext.createGain();
+        oscillator.type = wave || "sine";
+        oscillator.frequency.value = frequency;
+        gain.gain.setValueAtTime(volume || .03, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.001, audioContext.currentTime + duration);
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + duration);
+      }
+
+      var keyMap = {
+        ArrowUp: "up", KeyW: "up", ArrowDown: "down", KeyS: "down",
+        ArrowLeft: "left", KeyA: "left", ArrowRight: "right", KeyD: "right"
+      };
+
+      window.addEventListener("keydown", function (event) {
+        if (keyMap[event.code]) {
+          keys[keyMap[event.code]] = true;
+          event.preventDefault();
+        }
+        if ((event.code === "Space" || event.code === "KeyE") && !event.repeat) {
+          usePower();
+          event.preventDefault();
+        }
+        if ((event.code === "KeyP" || event.code === "Escape") && !event.repeat) {
+          togglePause();
+          event.preventDefault();
+        }
+      });
+      window.addEventListener("keyup", function (event) {
+        if (keyMap[event.code]) {
+          keys[keyMap[event.code]] = false;
+          event.preventDefault();
+        }
+      });
+      window.addEventListener("blur", function () {
+        clearKeys();
+        if (mode === "playing") togglePause();
+      });
+
+      document.querySelectorAll(".touch-button").forEach(function (button) {
+        var control = button.dataset.key;
+        var press = function (event) {
+          event.preventDefault();
+          unlockAudio();
+          button.classList.add("active");
+          if (control === "power") usePower(); else keys[control] = true;
+          if (button.setPointerCapture && event.pointerId !== undefined) button.setPointerCapture(event.pointerId);
+        };
+        var release = function (event) {
+          event.preventDefault();
+          button.classList.remove("active");
+          if (control !== "power") keys[control] = false;
+        };
+        button.addEventListener("pointerdown", press);
+        button.addEventListener("pointerup", release);
+        button.addEventListener("pointercancel", release);
+        button.addEventListener("lostpointercapture", release);
+      });
+
+      document.getElementById("startButton").addEventListener("click", startGame);
+      document.getElementById("pauseButton").addEventListener("click", function () { togglePause(); });
+      document.getElementById("resumeButton").addEventListener("click", function () { togglePause(true); });
+      document.getElementById("retryButton").addEventListener("click", startGame);
+      document.getElementById("changeButton").addEventListener("click", chooseAgain);
+      soundToggle.addEventListener("click", function () {
+        muted = !muted;
+        soundToggle.textContent = muted ? "🔇" : "🔊";
+        soundToggle.setAttribute("aria-pressed", muted ? "true" : "false");
+        soundToggle.setAttribute("aria-label", muted ? "Turn on game sounds" : "Mute game sounds");
+        if (!muted) tone(520, .06, "sine", .03);
+      });
+
+      canvas.setAttribute("tabindex", "-1");
+      configureCanvas();
+      window.addEventListener("resize", function () {
+        var oldW = W;
+        var oldH = H;
+        configureCanvas();
+        if (oldW !== W || oldH !== H) draw();
+      });
+      selectCharacter("boing");
+      drawBackdrop(0);
+      requestAnimationFrame(loop);
+    }());
+  </script>
 </body>
 </html>
